@@ -1,10 +1,10 @@
 {
   "expo": {
-    "name": "learnWithT3",
-    "slug": "learnWithT3",
+    "name": "learnWithT",
+    "slug": "learnWithT",
     "version": "1.0.0",
     "orientation": "portrait",
-    "icon": "./assets/images/icon.png",
+    "icon": "./assets/images/bookIcon.png",
     "scheme": "myapp",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
@@ -20,7 +20,7 @@
     "web": {
       "bundler": "metro",
       "output": "static",
-      "favicon": "./assets/images/favicon.png"
+      "favicon": "./assets/images/bookIcon.png"
     },
     "plugins": [
       "expo-router",
