@@ -11,6 +11,9 @@ import CustomButton from '@/components/CustomButton';
 export default function App() {
   return (
     <GestureHandlerRootView style={{ flex: 1 }}>
+
+      <StatusBar style="light" backgroundColor="transparent" translucent />
+
       <SafeAreaView className="bg-primary h-full">
         <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
           <View className="w-full justify-center items-center h-full px-4">
@@ -56,9 +59,9 @@ export default function App() {
             />
 
             {/* Other Elements */}
-            <Text className="text-3xl font-pblack text-white mt-5">Learn With Tânia</Text>
-            <StatusBar style="auto" />
-            <Link href="/calendar" style={{ color: 'green', marginTop: 20 }}>Go to Home</Link>
+            {/* <Text className="text-3xl font-pblack text-white mt-5">Learn With Tânia</Text> */}
+            {/* <StatusBar style="auto" /> */}
+            {/* <Link href="/calendar" style={{ color: 'green', marginTop: 20 }}>Go to Home</Link> */}
           </View>
         </ScrollView>
       </SafeAreaView>
