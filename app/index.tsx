@@ -20,7 +20,7 @@ export default function App() {
 
             {/* Logo */}
             <Image
-              source={images.logo}
+              source={images.logoWhite}
               className="w-[130px] h-[84px]"
               resizeMode="contain"
             />

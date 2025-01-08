@@ -31,7 +31,7 @@ const SignIn = () => {
             }}
           >
             <Image
-              source={images.logo}
+              source={images.logoWhite}
               resizeMode="contain"
               className="w-[115px] h-[34px]"
             />
