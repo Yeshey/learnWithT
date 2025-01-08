@@ -1,10 +1,10 @@
-import { View, Text, Image } from 'react-native'
-import { Tabs , Redirect } from 'expo-router';
+import { View, Text, Image, StyleSheet } from "react-native";
+import { Tabs } from "expo-router";
 
 import { icons } from "../../constants";
 
 type TabIconProps = {
-  icon: any; // Replace `any` with the correct type if you know the icon's type (e.g., ImageSourcePropType)
+  icon: any; // what type is it?
   color: string;
   name: string;
   focused: boolean;
@@ -12,16 +12,19 @@ type TabIconProps = {
 
 const TabIcon: React.FC<TabIconProps> = ({ icon, color, name, focused }) => {
   return (
-    <View className="flex items-center justify-center gap-2">
+    <View style={styles.tabIconContainer}>
       <Image
         source={icon}
         resizeMode="contain"
-        tintColor={color}
-        className="w-6 h-6"
+        style={[styles.icon, { tintColor: color }]}
       />
       <Text
-        className={`${focused ? "font-psemibold" : "font-pregular"} text-xs`}
-        style={{ color: color }}
+        numberOfLines={1}
+        adjustsFontSizeToFit
+        style={[
+          styles.iconText,
+          { color: color, fontFamily: focused ? "Poppins-Bold" : "Poppins-Regular" },
+        ]}
       >
         {name}
       </Text>
@@ -45,7 +48,7 @@ const TabsLayout = () => {
           },
         }}
       >
-        <Tabs.Screen 
+        <Tabs.Screen
           name="home"
           options={{
             title: "Home",
@@ -61,7 +64,7 @@ const TabsLayout = () => {
           }}
         />
 
-        <Tabs.Screen 
+        <Tabs.Screen
           name="calendar"
           options={{
             title: "Calendar",
@@ -76,10 +79,27 @@ const TabsLayout = () => {
             ),
           }}
         />
-
       </Tabs>
     </>
-  )
-}
+  );
+};
 
-export default TabsLayout
+const styles = StyleSheet.create({
+  tabIconContainer: {
+    // flex: 1,
+    alignItems: "center",
+    justifyContent: "center",
+    gap: 4,
+    maxWidth: 70, // Ensures text doesn’t overflow
+  },
+  icon: {
+    width: 24, // Set a fixed width
+    height: 24, // Set a fixed height
+  },
+  iconText: {
+  //  fontSize: 12, // Ensure readable text size
+  //  textAlign: "center", // Align text center
+  },
+});
+
+export default TabsLayout;
