@@ -10,47 +10,55 @@ import CustomButton from '@/components/CustomButton';
 
 export default function App() {
   return (
-
     <GestureHandlerRootView style={{ flex: 1 }}>
       <SafeAreaView className="bg-primary h-full">
-        <ScrollView contentContainerStyle={{ height: "100%" }}>
+        <ScrollView contentContainerStyle={{ flexGrow: 1 }}>
           <View className="w-full justify-center items-center h-full px-4">
 
-
+            {/* Logo */}
             <Image
               source={images.logo}
               className="w-[130px] h-[84px]"
               resizeMode="contain"
             />
 
+            {/* Cards Image */}
             <Image
               source={images.cards}
-              className="max-w-[380px] w-full h-[298px]"
+              style={{
+                maxWidth: 380,
+                width: '100%',
+                height: 298,
+                aspectRatio: 380 / 298, // Ensures the correct aspect ratio
+              }}
               resizeMode="contain"
             />
 
+            {/* Header Text */}
             <View className="relative mt-5">
-            <Text className="text-3xl text-white font-bold text-center">
-              Discover Endless{"\n"}
-              Possibilities with{" "}
-              <Text className="text-secondary-200">Aora</Text>
+              <Text className="text-3xl text-white font-bold text-center">
+                Discover Endless{"\n"}
+                Possibilities with{" "}
+                <Text className="text-secondary-200">Aora</Text>
+              </Text>
+            </View>
+
+            {/* Subtext */}
+            <Text className="text-sm font-pregular text-gray-100 mt-7 text-center">
+              For your Portuguese Journey
             </Text>
 
-          </View>
-
-          <Text className="text-sm font-pregular text-gray-100 mt-7 text-center">
-            For your Portuguese Journey
-          </Text>
-
+            {/* Custom Button */}
             <CustomButton
               title="Continue with Email"
               handlePress={() => router.push("/sign-in")}
-              containerStyles="w-full mt-7"
+              containerStyles="w-[80%] max-w-[300px] mt-7"
             />
 
-            <Text className="text-3xl font-pblack text-white">Learn With Tânia</Text>
+            {/* Other Elements */}
+            <Text className="text-3xl font-pblack text-white mt-5">Learn With Tânia</Text>
             <StatusBar style="auto" />
-            <Link href="/calendar" style={{ color: 'green' }}>Go to Home</Link>
+            <Link href="/calendar" style={{ color: 'green', marginTop: 20 }}>Go to Home</Link>
           </View>
         </ScrollView>
       </SafeAreaView>
