@@ -25,7 +25,7 @@ in
   };
 
   config = lib.mkIf cfg.enable {
-    networking.firewall = lib.mkIf cfg.openPorts.enable {
+    networking.firewall = lib.mkIf cfg.development.openPorts.enable {
       allowedUDPPorts = cfg.development.openPorts.portsToOpen;
       allowedTCPPorts = cfg.development.openPorts.portsToOpen;
     };
