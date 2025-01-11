@@ -7,6 +7,10 @@ let
   inherit (pkgs.stdenv.hostPlatform) system;
 in
 {
+  imports = [
+    ./appwriteDockerCompose_docker.nix # right now I'm commenting and uncommenting
+  ];
+
   options.learnWithT = {
     #enable = lib.mkEnableOption "Can disable all options from the module";
 
@@ -46,65 +50,16 @@ in
       };
     })
     
+    # (lib.mkIf (cfg.appwrite.enable) (import ./appwriteDockerCompose.nix)) # would like to make this work
     (lib.mkIf (cfg.appwrite.enable) {
 
-      virtualisation.oci-containers.containers = {
-        appwrite = {
-          image = "appwrite/appwrite:latest";
-          imageFile = pkgs.dockerTools.pullImage {
-            imageName = "appwrite/appwrite";
-            imageDigest = "sha256:269f8953594890a62f015e29c6343f7f2119468180d0dcecdfdc331bcbadf845";
-            sha256 = "0fqlikyjkzvwhv6p54yxhb7ag4l2i08rpkkb78asq22m9b3irhvh";
-          };
-          entrypoint = "install";
-          volumes = [
-            "/var/run/docker.sock:/var/run/docker.sock"
-            "${cfg.appwrite.docker-directory}/lwt_appwrite/appwrite:/usr/src/code/appwrite:rw"
-          ];
-          # autoStart = true; # Ensure the container starts automatically.
-          
-          # Set environment variables (https://appwrite.io/docs/advanced/self-hosting/environment-variables)
-          environment = {
-            _APP_ENV = "development"; # 'production' or, default is 'development'
-            _APP_OPTIONS_FORCE_HTTPS = "enabled";
-            _APP_DOMAIN = "localhost";
-            _APP_DOMAIN_TARGET = "localhost";
-            _APP_OPENSSL_KEY_V1 = "my_identity"; # Replace with your secret API key
-            _APP_SYSTEM_SECURITY_EMAIL_ADDRESS = "yesheysangpo@gmail.com";
-            #_APP_CONNECTIONS_MAX=20;
+      environment.systemPackages = with pkgs; [
+        docker-compose
+      ];
 
-            # Ports (these are not environment variables but for clarity)
-            # HTTP_PORT = "80"; # Not used directly by Appwrite but included for reference
-            # HTTPS_PORT = "443";
-          };
-        };
-      };
-
-      systemd.services.podman-appwrite = {
-        serviceConfig = {
-          Restart = lib.mkForce "always"; # no # always # on-failure
-        };
-      };
-
-    # Ensure the directorys exist
-      systemd.services.appwrite-mgr = {
-        enable = true;
-        path = [ ];
-        script = ''
-  WORKING_DIR=${cfg.appwrite.docker-directory}/lwt_appwrite/appwrite
-  CERT_CHANGED=false
-
-  echo "Ensuring working directory exists..."
-  if [ ! -d $WORKING_DIR ]; then
-    mkdir -p $WORKING_DIR
-  fi
-  '';
-        wantedBy = [ "multi-user.target" ]; # Run after system boot
-        serviceConfig = {
-          Type = "oneshot";
-          User = "root";
-        };
-      };
+      systemd.timers."podman-auto-update".wantedBy = [ "timers.target" ]; # upgrade on mid night
+      # networking.firewall.enable = lib.mkForce false;
+      # virtualisation.docker.enable = lib.mkForce false;
 
     })
 
