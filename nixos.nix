@@ -47,6 +47,7 @@ in
     })
     
     (lib.mkIf (cfg.appwrite.enable) {
+
       virtualisation.oci-containers.containers = {
         appwrite = {
           image = "appwrite/appwrite:latest";
@@ -58,9 +59,9 @@ in
           entrypoint = "install";
           volumes = [
             "/var/run/docker.sock:/var/run/docker.sock"
-            "${cfg.appwrite.docker-directory}/lwt_appwrite:/usr/src/code/appwrite:rw"
+            "${cfg.appwrite.docker-directory}/lwt_appwrite/appwrite:/usr/src/code/appwrite:rw"
           ];
-          autoStart = true; # Ensure the container starts automatically.
+          # autoStart = true; # Ensure the container starts automatically.
           
           # Set environment variables (https://appwrite.io/docs/advanced/self-hosting/environment-variables)
           environment = {
@@ -70,6 +71,7 @@ in
             _APP_DOMAIN_TARGET = "localhost";
             _APP_OPENSSL_KEY_V1 = "my_identity"; # Replace with your secret API key
             _APP_SYSTEM_SECURITY_EMAIL_ADDRESS = "yesheysangpo@gmail.com";
+            #_APP_CONNECTIONS_MAX=20;
 
             # Ports (these are not environment variables but for clarity)
             # HTTP_PORT = "80"; # Not used directly by Appwrite but included for reference
@@ -78,12 +80,18 @@ in
         };
       };
 
+      systemd.services.podman-appwrite = {
+        serviceConfig = {
+          Restart = lib.mkForce "always"; # no # always # on-failure
+        };
+      };
+
     # Ensure the directorys exist
       systemd.services.appwrite-mgr = {
         enable = true;
         path = [ ];
         script = ''
-  WORKING_DIR=${cfg.appwrite.docker-directory}/lwt_appwrite
+  WORKING_DIR=${cfg.appwrite.docker-directory}/lwt_appwrite/appwrite
   CERT_CHANGED=false
 
   echo "Ensuring working directory exists..."
