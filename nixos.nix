@@ -53,13 +53,41 @@ in
     # (lib.mkIf (cfg.appwrite.enable) (import ./appwriteDockerCompose.nix)) # would like to make this work
     (lib.mkIf (cfg.appwrite.enable) {
 
-      environment.systemPackages = with pkgs; [
-        docker-compose
-      ];
-
       systemd.timers."podman-auto-update".wantedBy = [ "timers.target" ]; # upgrade on mid night
       # networking.firewall.enable = lib.mkForce false;
       # virtualisation.docker.enable = lib.mkForce false;
+
+      # makeDesktopItem https://discourse.nixos.org/t/proper-icon-when-using-makedesktopitem/32026
+      # appwrite desktop shortcut
+      environment.systemPackages =
+        let   
+          port = "80";
+        in 
+        with pkgs;
+        let
+          appwriteDesktopItem = makeDesktopItem {
+            name = "Appwrite";
+            desktopName = "Appwrite";
+            genericName = "Appwrite";
+            exec = ''xdg-open "http://localhost:${port}#"'';
+            icon = "firefox";
+            categories = [
+              "GTK"
+              "X-WebApps"
+            ];
+            mimeTypes = [
+              "text/html"
+              "text/xml"
+              "application/xhtml_xml"
+            ];
+          };
+        in
+        [
+          xdg-utils
+          appwriteDesktopItem
+
+          docker-compose
+        ];
 
     })
 
