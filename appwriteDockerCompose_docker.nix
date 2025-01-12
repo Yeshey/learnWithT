@@ -1,4 +1,6 @@
 # Auto-generated using compose2nix v0.3.2-pre.
+# generated with:
+# nix run github:aksiksi/compose2nix -- --env_files=/opt/docker/lwt_appwrite/appwrite/.env --include_env_files=true --project=learnwitht --runtime "docker" --output /mnt/DataDisk/Downloads/dockerlearnWithT.nix
 { pkgs, lib, ... }:
 
 {
