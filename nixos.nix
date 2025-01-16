@@ -52,8 +52,9 @@ in
     
     # (lib.mkIf (cfg.appwrite.enable) (import ./appwriteDockerCompose.nix)) # would like to make this work
     (lib.mkIf (cfg.appwrite.enable) {
+      # also activates the contents of appwriteDockerCompose_docker
 
-      systemd.timers."podman-auto-update".wantedBy = [ "timers.target" ]; # upgrade on mid night
+      systemd.timers."podman-auto-update".wantedBy = [ "timers.target" ]; # upgrade on mid night # TODO and docker containers?
       # networking.firewall.enable = lib.mkForce false;
       # virtualisation.docker.enable = lib.mkForce false;
 
