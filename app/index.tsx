@@ -21,7 +21,7 @@ export default function App() {
             {/* Logo */}
             <Image
               source={images.logoWhite}
-              className="w-[130px] h-[84px]"
+              className="max-w-[43%] h-[154px] aspect-square web:max-w-[300px]"
               resizeMode="contain"
             />
 
@@ -42,7 +42,7 @@ export default function App() {
               <Text className="text-3xl text-white font-bold text-center">
                 Discover Endless{"\n"}
                 Possibilities with{" "}
-                <Text className="text-secondary-200">Aora</Text>
+                <Text className="text-secondary-200">LearnWithT</Text>
               </Text>
             </View>
 
