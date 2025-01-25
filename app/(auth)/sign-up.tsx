@@ -31,10 +31,11 @@ const SignUp = () => {
               minHeight: Dimensions.get("window").height - 100,
             }}
           >
+
             <Image
-              source={images.logo}
+              source={images.logoWhite}
               resizeMode="contain"
-              className="w-[115px] h-[34px]"
+              className="w-[65%] max-w-[280px] web:max-w-[280px] aspect-[380/298]"
             />
 
             <Text className="text-2xl font-semibold text-white mt-10 font-psemibold">
