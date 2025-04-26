@@ -1,5 +1,5 @@
 all_files_combined.txt
-all-files.sh
+# all-files.sh
 .syncthing*
 *sync-conflict*
 
