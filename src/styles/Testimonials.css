@@ -1,0 +1,77 @@
+.testimonials {
+    padding: 80px 0;
+    background-color: var(--secondary-color);
+  }
+  
+  .library-intro {
+    text-align: center;
+    max-width: 800px;
+    margin: 0 auto 50px;
+    font-size: 1.1rem;
+  }
+  
+  .library-grid {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 25px;
+    margin-bottom: 30px;
+  }
+  
+  .library-card {
+    background-color: #fff;
+    padding: 30px 20px;
+    border-radius: 8px;
+    text-align: center;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.05);
+    transition: transform 0.3s, box-shadow 0.3s;
+  }
+  
+  .library-card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 8px 25px rgba(0, 0, 0, 0.1);
+  }
+  
+  .card-icon {
+    font-size: 2.5rem;
+    margin-bottom: 20px;
+    color: var(--primary-color);
+  }
+  
+  .library-card h3 {
+    font-size: 1.2rem;
+    margin-bottom: 15px;
+    color: var(--primary-color);
+  }
+  
+  .library-card p {
+    font-size: 0.9rem;
+    margin-bottom: 20px;
+    color: var(--light-text);
+  }
+  
+  .library-note {
+    text-align: center;
+    font-style: italic;
+    font-size: 0.9rem;
+    color: var(--light-text);
+  }
+  
+  @media (max-width: 992px) {
+    .library-grid {
+      grid-template-columns: repeat(2, 1fr);
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .testimonials {
+      padding: 60px 0;
+    }
+    
+    .library-grid {
+      grid-template-columns: 1fr;
+    }
+    
+    .library-intro {
+      font-size: 1rem;
+    }
+  }
