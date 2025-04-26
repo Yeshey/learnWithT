@@ -1,5 +1,5 @@
-# TAISCTE_tree
-Árvore geneologica da tuna TAISCTE Lisboa!
+# Lear With Tânia
+Best way to learn Portuguese
 
 ## Get started in development:
 
