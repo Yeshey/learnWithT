@@ -27,7 +27,7 @@ jobs:
         with:
           # !!! IMPORTANT: Use the Node.js LTS version from your OTHER workflow or flake.nix !!!
           # Example: If your other workflow updated to v20, use 20 here.
-          node-version: '20' # <<<--- ADJUST THIS TO MATCH YOUR PROJECT'S CURRENT LTS
+          node-version: '18' # <<<--- ADJUST THIS TO MATCH YOUR PROJECT'S CURRENT LTS
           cache: 'npm'
 
       - name: Configure Git User
