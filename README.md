@@ -152,7 +152,7 @@ Please provide exactly:
   - Realtime Database → its URL (`https://…firebaseio.com`)  ([Step-by-step guide on how to set up Firebase for a web application.](https://www.linkedin.com/pulse/step-by-step-guide-how-set-up-firebase-web-maryam-fatima-rajput-aufxf?utm_source=chatgpt.com))  
   - Firestore → confirm region (optional)  ([Step-by-step guide on how to set up Firebase for a web application.](https://www.linkedin.com/pulse/step-by-step-guide-how-set-up-firebase-web-maryam-fatima-rajput-aufxf?utm_source=chatgpt.com))  
 
-## Github Workdlows auto update
+## GitHub Workflows auto update
 
 For Worflows to work in this repository, you have to go to `Settings` > `Actions` > `General` > `Workflow permissions` > Select ` Read repository contents and packages permissions` and `Allow GitHub Actions to create and approve pull requests`.
 
