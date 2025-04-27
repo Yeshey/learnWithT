@@ -159,6 +159,6 @@ For Worflows to work in this repository, you have to go to `Settings` > `Actions
 This repo has two workflows:
 
 - `node-lts-version-update.yml` - Runs every month, makes a PR to updates the version of node in `.nvmrc` to the latest found LTS version of nodeJS;
-- `auto-dependency-deploy.yml` - Runs every week, updates dependencies, builds and tests, and deploys if there were no errors.
+- `auto-dependency-deploy.yml` - Runs every week, updates dependencies based on node version in `.nvmrc`, builds and tests, and deploys if there were no errors.
 
 Note that you can't leave warnings when developing, otherwise `auto-dependency-deploy.yml` will fail due to its strict tests.
