@@ -1,0 +1,57 @@
+name: Update NPM Dependencies (Create PR)
+
+on:
+  schedule:
+    # Runs every Monday at 05:00 UTC
+    - cron: '0 5 * * 1'
+  workflow_dispatch: # Allows manual triggering
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  update-deps-pr:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          # Use the Node.js version specified in your flake.nix or your project standard
+          node-version: '20' # <<< Ensure this matches your current required version
+          cache: 'npm'
+
+      - name: Install Dependencies (Clean Slate)
+        run: npm ci
+
+      - name: Update Dependencies
+        run: npm update
+
+      # --- Optional but Recommended: Check if updates break build/tests ---
+      - name: Build Project Check
+        run: npm run build
+      # - name: Run Tests Check
+      #   run: npm test
+      # -------------------------------------------------------------------
+
+      - name: Create Pull Request For Updates
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore(deps): update npm dependencies"
+          # Corrected committer and author lines:
+          committer: GitHub <noreply@github.com>
+          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com> # Use github.actor twice
+          signoff: false
+          branch: chore/npm-dependency-updates
+          delete-branch: true
+          title: "chore(deps): Update NPM dependencies"
+          body: |
+            Automated dependency update via GitHub Actions.
+
+            Updates npm dependencies based on `package.json` constraints.
+            Please review changes and test thoroughly before merging.
+          labels: dependencies,automated pr

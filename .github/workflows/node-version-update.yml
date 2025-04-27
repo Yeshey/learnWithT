@@ -1,97 +1,87 @@
-name: Auto Update & Deploy Dependencies
+name: Check & Propose Node.js LTS Update
 
 on:
   schedule:
-    # Runs weekly, e.g., Sunday at 05:00 UTC (different from Node check)
-    - cron: '0 5 * * 0'
+    # Runs on the 1st of every month at 06:00 UTC
+    - cron: '0 6 1 * *'
   workflow_dispatch: # Allows manual triggering
-  push:
-    branches:
-      # Trigger when changes (like a merged Node update PR) are pushed to main
-      - main # Or your default branch name (e.g., master)
-    paths:
-      # Only trigger push event if Node version update workflow file potentially changed
-      # Or if package files changed directly (less likely for this trigger)
-      - '.github/workflows/**.yml'
-      - 'package.json'
-      - 'package-lock.json'
 
 permissions:
-  contents: write # Needed to commit package file updates and push to gh-pages
-
-concurrency: # Prevent multiple runs from interfering
-  group: ${{ github.workflow }}-${{ github.ref }}
-  cancel-in-progress: true
+  contents: write
+  pull-requests: write
 
 jobs:
-  update-and-deploy:
-    # Only run on push IF the commit message isn't from this workflow itself
-    # Prevents loops after pushing package-lock.json updates
-    if: github.event_name != 'push' || !contains(github.event.head_commit.message, 'chore(deps): automatically update npm dependencies')
+  propose-node-update:
     runs-on: ubuntu-latest
+    outputs:
+      latest_lts_major: ${{ steps.get_versions.outputs.latest_lts_major }}
+      needs_update: ${{ steps.get_versions.outputs.needs_update }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-        with:
-          # Use a Personal Access Token (PAT) if pushing to gh-pages from action
-          # Or configure gh-pages action to use GITHUB_TOKEN if possible
-          # token: ${{ secrets.PAT_FOR_GH_PAGES }} # Example if needed
-          fetch-depth: 0 # Needed for gh-pages deploy history
 
-      - name: Setup Node.js
-        id: setup_node # Give step an ID
-        uses: actions/setup-node@v4
-        with:
-          # This version will be updated by the node-version-update workflow's PR
-          node-version: '20' # <<< YOUR CURRENT LTS MAJOR VERSION HERE
-          cache: 'npm'
-
-      - name: Install Dependencies (Clean Slate)
-        run: npm ci
-
-      - name: Update Dependencies
-        id: update_deps
+      - name: Get Latest LTS and Current Configured Node Version
+        id: get_versions
         run: |
-          npm update
-          # Check if package-lock changed to decide if commit/deploy needed
-          if git diff --quiet --exit-code package-lock.json; then
-            echo "No dependency changes detected."
-            echo "changes_detected=false" >> $GITHUB_OUTPUT
-          else
-            echo "Dependency changes detected."
-            echo "changes_detected=true" >> $GITHUB_OUTPUT
+          echo "Fetching latest Node.js LTS version..."
+          LATEST_LTS_VERSION=$(curl -s https://nodejs.org/dist/index.json | jq -r '[.[] | select(.lts != false)] | sort_by(.date) | reverse | .[0].version')
+          LATEST_LTS_MAJOR=$(echo $LATEST_LTS_VERSION | sed 's/v\([0-9]*\).*/\1/')
+          echo "Latest LTS Major: ${LATEST_LTS_MAJOR}"
+
+          echo "Finding current Node version configured in primary workflow..."
+          PRIMARY_WORKFLOW_FILE=".github/workflows/auto-dependency-deploy.yml" # CHECK THIS PATH
+          CURRENT_NODE_LINE=$(grep -m 1 'node-version:' "$PRIMARY_WORKFLOW_FILE")
+          CURRENT_MAJOR=$(echo "$CURRENT_NODE_LINE" | sed -n 's/.*node-version:[^0-9]*\([0-9]\+\).*/\1/p')
+
+          if [[ -z "$CURRENT_MAJOR" ]]; then
+            echo "Error: Could not find current major Node version in $PRIMARY_WORKFLOW_FILE"
+            exit 1
           fi
+          echo "Current Configured Major: ${CURRENT_MAJOR}"
 
-      # Run build/test *after* potential updates
-      - name: Build Project Check
-        if: steps.update_deps.outputs.changes_detected == 'true'
-        run: npm run build
+          echo "latest_lts_major=${LATEST_LTS_MAJOR}" >> $GITHUB_OUTPUT
+          echo "current_major=${CURRENT_MAJOR}" >> $GITHUB_OUTPUT
 
-      # - name: Run Tests Check
-      #   if: steps.update_deps.outputs.changes_detected == 'true'
-      #   run: npm test
+          if [[ "$LATEST_LTS_MAJOR" -gt "$CURRENT_MAJOR" ]]; then
+            echo "Update needed."
+            echo "needs_update=true" >> $GITHUB_OUTPUT
+          else
+            echo "No Node.js major version update needed."
+            echo "needs_update=false" >> $GITHUB_OUTPUT
+          fi
+        shell: bash
 
-      - name: Configure Git
-        if: steps.update_deps.outputs.changes_detected == 'true'
+      - name: Update node-version in ALL Workflow Files
+        if: steps.get_versions.outputs.needs_update == 'true'
         run: |
-          git config user.name "GitHub Actions Bot"
-          git config user.email "actions-bot@github.com"
+          echo "Updating node-version to ${{ steps.get_versions.outputs.latest_lts_major }} in .github/workflows/*.yml"
+          find .github/workflows -name '*.yml' -exec sed -i -E "s/(node-version:[[:space:]]*['\"]?)[0-9]+([\.\w]*['\"]?)/\1${{ steps.get_versions.outputs.latest_lts_major }}\2/" {} \;
+          echo "--- Files Updated ---"
+          git status --porcelain
+          echo "---------------------"
 
-      - name: Commit updated package files
-        if: steps.update_deps.outputs.changes_detected == 'true'
-        run: |
-          git add package.json package-lock.json
-          git commit -m "chore(deps): automatically update npm dependencies"
+      - name: Create Pull Request for Node.js Update (Requires Manual Review & flake.nix update)
+        if: steps.get_versions.outputs.needs_update == 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          commit-message: "chore(ci): propose Node.js v${{ steps.get_versions.outputs.latest_lts_major }} update in workflows"
+          # Corrected committer and author lines:
+          committer: GitHub <noreply@github.com>
+          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com> # Use github.actor twice for email
+          signoff: false
+          branch: chore/propose-node-version-${{ steps.get_versions.outputs.latest_lts_major }}
+          delete-branch: true
+          title: "chore(ci): Propose Node.js LTS v${{ steps.get_versions.outputs.latest_lts_major }} update for workflows"
+          body: |
+            Automated Node.js version update detected for workflows.
 
-      - name: Deploy to GitHub Pages if Dependencies Changed
-        if: steps.update_deps.outputs.changes_detected == 'true'
-        env:
-           # Required for gh-pages script if using default GITHUB_TOKEN
-           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-           # Or if using a PAT:
-           # GH_TOKEN: ${{ secrets.PAT_FOR_GH_PAGES }} # Name depends on gh-pages setup
-        run: npm run deploy
+            Proposing update to `node-version` for latest LTS: **v${{ steps.get_versions.outputs.latest_lts_major }}**.
 
-      - name: Push committed changes (if any) to main branch
-        if: steps.update_deps.outputs.changes_detected == 'true'
-        run: git push origin ${{ github.ref_name }} # Push back to the branch that triggered (e.g., main)
+            **Manual Action Required Before Merging:**
+            *   Review changes to `.github/workflows/*.yml` files.
+            *   **Manually update `flake.nix`** (e.g., `pkgs.nodejs_XX`) to use Node.js **v${{ steps.get_versions.outputs.latest_lts_major }}**.
+            *   Update other project files (`.nvmrc`, `package.json engines`) if needed.
+            *   Test thoroughly after updating all locations.
+            *   Merge this PR **after** updating `flake.nix` and testing.
+          labels: dependencies,ci,automated pr,node-version,needs-manual-action
