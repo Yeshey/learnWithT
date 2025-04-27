@@ -12,7 +12,7 @@ See emails sent through the form stats through: https://formspree.io/forms/mkgrg
 3. `npm start` to run the project locally and make changes in real time. 
 4. `npm run deploy`, deploys the site, the URL is defined in `"homepage"` of `package.json`, the site now is `https://Yeshey.github.io/learnWithT`  
    - This uses the `gh-pages` package that deploys a static version of the site to the branch `gh-pages`, witch is where GitHub looks for `index.html` witch will be the static version of our site. 
-5. Create or ask for the `.env` file with the access keys to the database. The file should look like:
+5. Create or ask for the `.env` file with the access keys to the database. The file should look like: (we are not using firebase currently)
    ```env
    REACT_APP_FIREBASE_API_KEY="AIzaSyD***************N7s"
    REACT_APP_FIREBASE_AUTH_DOMAIN="your-project-id.firebaseapp.com"
