@@ -76,7 +76,7 @@ jobs:
           echo "---------------------"
         shell: bash # Ensure shell is bash for find/sed
 
-      - name: Create Pull Request for Node.js Update (Without Workflow Changes)
+      - name: Create Pull Request for Node.js Update
         if: steps.get_versions.outputs.needs_update == 'true'
         env:
           GH_TOKEN: ${{ github.token }}
@@ -107,9 +107,8 @@ jobs:
           git commit -m "chore: indicate Node.js v${{ steps.get_versions.outputs.latest_lts_major }} update needed"
           git push -f origin node-update-needed-v${{ steps.get_versions.outputs.latest_lts_major }}
           
-          # Use GitHub CLI to create the PR
+          # Create PR without specifying labels
           gh pr create --base main --head node-update-needed-v${{ steps.get_versions.outputs.latest_lts_major }} \
             --title "chore(ci): Node.js LTS v${{ steps.get_versions.outputs.latest_lts_major }} update needed" \
-            --body-file pr_message.md \
-            --label "dependencies,ci,needs-manual-action"
+            --body-file pr_message.md
         shell: bash
