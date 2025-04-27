@@ -1,0 +1,97 @@
+name: Auto Update & Deploy Dependencies
+
+on:
+  schedule:
+    # Runs weekly, e.g., Sunday at 05:00 UTC (different from Node check)
+    - cron: '0 5 * * 0'
+  workflow_dispatch: # Allows manual triggering
+  push:
+    branches:
+      # Trigger when changes (like a merged Node update PR) are pushed to main
+      - main # Or your default branch name (e.g., master)
+    paths:
+      # Only trigger push event if Node version update workflow file potentially changed
+      # Or if package files changed directly (less likely for this trigger)
+      - '.github/workflows/**.yml'
+      - 'package.json'
+      - 'package-lock.json'
+
+permissions:
+  contents: write # Needed to commit package file updates and push to gh-pages
+
+concurrency: # Prevent multiple runs from interfering
+  group: ${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  update-and-deploy:
+    # Only run on push IF the commit message isn't from this workflow itself
+    # Prevents loops after pushing package-lock.json updates
+    if: github.event_name != 'push' || !contains(github.event.head_commit.message, 'chore(deps): automatically update npm dependencies')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          # Use a Personal Access Token (PAT) if pushing to gh-pages from action
+          # Or configure gh-pages action to use GITHUB_TOKEN if possible
+          # token: ${{ secrets.PAT_FOR_GH_PAGES }} # Example if needed
+          fetch-depth: 0 # Needed for gh-pages deploy history
+
+      - name: Setup Node.js
+        id: setup_node # Give step an ID
+        uses: actions/setup-node@v4
+        with:
+          # This version will be updated by the node-version-update workflow's PR
+          node-version: '20' # <<< YOUR CURRENT LTS MAJOR VERSION HERE
+          cache: 'npm'
+
+      - name: Install Dependencies (Clean Slate)
+        run: npm ci
+
+      - name: Update Dependencies
+        id: update_deps
+        run: |
+          npm update
+          # Check if package-lock changed to decide if commit/deploy needed
+          if git diff --quiet --exit-code package-lock.json; then
+            echo "No dependency changes detected."
+            echo "changes_detected=false" >> $GITHUB_OUTPUT
+          else
+            echo "Dependency changes detected."
+            echo "changes_detected=true" >> $GITHUB_OUTPUT
+          fi
+
+      # Run build/test *after* potential updates
+      - name: Build Project Check
+        if: steps.update_deps.outputs.changes_detected == 'true'
+        run: npm run build
+
+      # - name: Run Tests Check
+      #   if: steps.update_deps.outputs.changes_detected == 'true'
+      #   run: npm test
+
+      - name: Configure Git
+        if: steps.update_deps.outputs.changes_detected == 'true'
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions-bot@github.com"
+
+      - name: Commit updated package files
+        if: steps.update_deps.outputs.changes_detected == 'true'
+        run: |
+          git add package.json package-lock.json
+          git commit -m "chore(deps): automatically update npm dependencies"
+
+      - name: Deploy to GitHub Pages if Dependencies Changed
+        if: steps.update_deps.outputs.changes_detected == 'true'
+        env:
+           # Required for gh-pages script if using default GITHUB_TOKEN
+           GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+           # Or if using a PAT:
+           # GH_TOKEN: ${{ secrets.PAT_FOR_GH_PAGES }} # Name depends on gh-pages setup
+        run: npm run deploy
+
+      - name: Push committed changes (if any) to main branch
+        if: steps.update_deps.outputs.changes_detected == 'true'
+        run: git push origin ${{ github.ref_name }} # Push back to the branch that triggered (e.g., main)
