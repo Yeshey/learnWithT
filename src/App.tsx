@@ -13,7 +13,8 @@ import AboutPage from './components/AboutPage';
 import FAQPage from './components/FAQPage';
 import TranslationsPage from './components/TranslationsPage';
 import OfferDetailPage from './components/OfferDetailPage';
-import TermsConditionsPage from './components/TermsConditionsPage'; // Import
+import TermsConditionsPage from './components/TermsConditionsPage';
+import NotFoundPage from './components/NotFoundPage'; // Import the 404 page
 // Import ScrollRestoration here if placing it in Layout
 // import { ScrollRestoration } from 'react-router-dom';
 
@@ -47,11 +48,7 @@ const routes: RouteObject[] = [
         element: <OfferDetailPage />,
       },
       { path: "terms-conditions", element: <TermsConditionsPage /> }, // Add route
-      // Add a 404 route if desired
-      // {
-      //   path: "*",
-      //   element: <NotFoundPage />,
-      // }
+      { path: "*", element: <NotFoundPage /> }
     ],
   },
   // You could define routes outside the Layout here if needed

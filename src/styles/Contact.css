@@ -143,6 +143,56 @@
        text-decoration: underline;
   }
 
+/* ./src/styles/Contact.css */
+
+/* ... (rest of the contact styles) ... */
+
+.form-status-container {
+  min-height: 2em; /* Reserve space for messages */
+  margin-bottom: 15px; /* Space before button */
+}
+
+.form-status {
+  padding: 8px 12px;
+  border-radius: 4px;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.form-status.sending {
+  color: var(--primary-color);
+  background-color: #e0f7fa; /* Light blue background */
+}
+
+.form-status.success {
+  color: #155724; /* Dark green text */
+  background-color: #d4edda; /* Light green background */
+  border: 1px solid #c3e6cb;
+}
+
+.form-status.error {
+  color: #721c24; /* Dark red text */
+  background-color: #f8d7da; /* Light red background */
+  border: 1px solid #f5c6cb;
+}
+
+/* Style disabled state */
+.contact-form input:disabled,
+.contact-form select:disabled,
+.contact-form textarea:disabled {
+  background-color: #f8f8f8;
+  cursor: not-allowed;
+  opacity: 0.7;
+}
+
+.contact-form button:disabled {
+background-color: #ccc;
+cursor: not-allowed;
+}
+.contact-form button:disabled:hover {
+background-color: #ccc; /* Prevent hover effect when disabled */
+}
+
 @media (max-width: 992px) {
   .contact-container {
     grid-template-columns: 1fr;
