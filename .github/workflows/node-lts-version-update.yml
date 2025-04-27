@@ -102,4 +102,3 @@ jobs:
             4.  Run `npm install` or `npm ci` locally with the new Node version active.
             5.  Test the application thoroughly (`npm run build`, `npm test`, manual testing).
             6.  Merge this PR **after** updating `flake.nix` and testing successfully.
-          labels: dependencies,node-version,needs-manual-action
