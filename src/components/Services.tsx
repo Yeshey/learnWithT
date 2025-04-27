@@ -16,8 +16,8 @@ const Services: React.FC = () => {
           <div className="service-card">
             <div className="service-image service-image-1"></div>
             <div className="service-content">
-              <h3>Live Or Online Digital Group Sessions In Funchal, Madeira Island</h3>
-              <p>These sessions are designed for all levels...</p>
+              <h3>15-min free demo session</h3>
+              <p>These sessions are designed to get acquainted and get to know each other</p>
               {/* Link to detail page */}
               <Link to="/offer/group-funchal" className="btn">Learn More</Link>
             </div>

@@ -13,6 +13,7 @@ import AboutPage from './components/AboutPage';
 import FAQPage from './components/FAQPage';
 import TranslationsPage from './components/TranslationsPage';
 import OfferDetailPage from './components/OfferDetailPage';
+import TermsConditionsPage from './components/TermsConditionsPage'; // Import
 // Import ScrollRestoration here if placing it in Layout
 // import { ScrollRestoration } from 'react-router-dom';
 
@@ -45,6 +46,7 @@ const routes: RouteObject[] = [
         path: "offer/:offerId",
         element: <OfferDetailPage />,
       },
+      { path: "terms-conditions", element: <TermsConditionsPage /> }, // Add route
       // Add a 404 route if desired
       // {
       //   path: "*",

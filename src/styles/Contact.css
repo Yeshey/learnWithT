@@ -115,7 +115,33 @@
   color: var(--light-text);
 }
 
-/* REMOVE the .contact-info-form styles you added */
+    /* ./src/styles/Contact.css */
+    .contact-section .contact-container-inner { /* Target within homepage section */
+      /* padding: 80px 0; */ /* Padding handled by section */
+      /* background-color: #fff; */ /* Background handled by section */
+  }
+
+  /* Update this class name */
+  .contact-grid {
+    display: grid;
+    grid-template-columns: 1fr 1.5fr;
+    gap: 50px;
+    margin-top: 40px;
+  }
+
+  .info-item a,
+  .info-item p,
+  .contact-info-phone-link { /* Apply same style */
+      margin-bottom: 0;
+      color: var(--text-color);
+      text-decoration: none;
+  }
+
+  .info-item a:hover,
+  .contact-info-phone-link:hover { /* Add hover style */
+      color: var(--accent-color);
+       text-decoration: underline;
+  }
 
 @media (max-width: 992px) {
   .contact-container {

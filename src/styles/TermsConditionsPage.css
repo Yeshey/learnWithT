@@ -1,0 +1,44 @@
+/* ./src/styles/TermsConditionsPage.css */
+.terms-page {
+    /* padding-top: 0; */ /* Layout handles top */
+    padding-bottom: 60px;
+    background-color: #fff;
+  }
+  
+  .terms-content {
+    max-width: 800px;
+    margin: 30px auto 0;
+    line-height: 1.7;
+  }
+  
+  .terms-content h3 {
+    color: var(--primary-color);
+    font-size: 1.4rem;
+    margin-top: 30px;
+    margin-bottom: 15px;
+  }
+  
+  .terms-content p {
+    font-size: 1rem;
+    margin-bottom: 15px;
+    color: var(--text-color);
+  }
+  
+  .terms-content em {
+    display: block;
+    margin-top: 40px;
+    font-size: 0.9rem;
+    color: var(--light-text);
+  }
+  
+  @media (max-width: 768px) {
+    .terms-page {
+      padding-bottom: 40px;
+    }
+    .terms-content h3 {
+      font-size: 1.2rem;
+    }
+    .terms-content p {
+      font-size: 0.95rem;
+    }
+  }
