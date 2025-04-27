@@ -6,23 +6,24 @@ on:
     - cron: '0 6 1 * *'
   workflow_dispatch: # Allows manual triggering
 
-# Top-level permissions are NOT needed here as they are defined per-job
+# Define standard permissions
+permissions:
+  contents: write
+  pull-requests: write
+  # workflows permission removed as it's causing issues
 
 jobs:
   propose-node-update:
     runs-on: ubuntu-latest
-    # Permissions required for this specific job
-    permissions:
-      contents: write         # Needed to checkout code and commit changes
-      pull-requests: write    # Needed by peter-evans/create-pull-request
-      # REMOVE THE INVALID LINE BELOW:
-      # workflows: write
     outputs:
       latest_lts_major: ${{ steps.get_versions.outputs.latest_lts_major }}
       needs_update: ${{ steps.get_versions.outputs.needs_update }}
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        with:
+          # Using the PAT token for checkout to allow workflow file modifications
+          token: ${{ secrets.PAT_TOKEN }} # You need to create this secret
 
       - name: Get Latest LTS and Current Configured Node Version
         id: get_versions
@@ -83,7 +84,7 @@ jobs:
         if: steps.get_versions.outputs.needs_update == 'true'
         uses: peter-evans/create-pull-request@v6
         with:
-          token: ${{ secrets.GITHUB_TOKEN }}
+          token: ${{ secrets.PAT_TOKEN }} # Use PAT instead of GITHUB_TOKEN
           commit-message: "chore(ci): propose Node.js v${{ steps.get_versions.outputs.latest_lts_major }} update in workflows"
           committer: GitHub <noreply@github.com>
           author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
