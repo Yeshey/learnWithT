@@ -1,14 +1,17 @@
 import React from 'react';
-import '../styles/Hero.css';
+import '../styles/HomePage.css';
+import { Link } from 'react-router-dom';
 
-const Hero: React.FC = () => {
+const HeroContent: React.FC = () => {
   return (
-    <section className="hero" id="hero">
+    <>
+    {/*<section className="hero" id="hero">*/ } 
       <div className="hero-content">
         <div className="hero-text">
           <h1>Learn Portuguese<br />Online Or In Person!</h1>
           <p>All you need is a laptop,<br />a good internet connection<br />and motivation!</p>
-          <a href="#contact" className="btn">Let's Learn</a>
+          {/*<a href="#contact" className="btn">Let's Learn</a>*/}
+          <Link to="/contact" className="btn">Let's Learn</Link>
         </div>
         <div className="hero-image">
           {/* Image is handled by CSS background in production */}
@@ -27,11 +30,12 @@ const Hero: React.FC = () => {
           <p>In addition to teaching, I am an intuitive life coach, guiding individuals through the growth. Communicative & CLIL's Teaching, The work method is a mix of communicative and content-based learning techniques, prioritizing real-life language use.</p>
           <p>My conversational-native-method for creating supportive communities and encouraging meaningful connections, I believe that language learning becomes easy through human connections, bridging both learning and life.</p>
           <p>Through my work, I help others unlock their potential and embrace growth through languages.</p>
-          <a href="#about" className="btn">Read More</a>
+          <Link to="/about" className="btn">Read More</Link>
         </div>
       </div>
-    </section>
+    {/*</section>*/}
+    </>
   );
 };
 
-export default Hero;
+export default HeroContent;

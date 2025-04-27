@@ -1,0 +1,61 @@
+/* ./src/styles/OfferDetailPage.css */
+.offer-detail-page {
+    /* Page container */
+}
+
+.offer-hero {
+    background-color: var(--secondary-color);
+    padding: 40px 0;
+    text-align: center;
+    border-bottom: 1px solid #eee;
+    margin-bottom: 40px; /* Space below hero */
+}
+
+.offer-hero h1 {
+    color: var(--primary-color);
+    font-size: 2.5rem;
+}
+/* Add styles for .offer-hero-image if you use one */
+
+
+.offer-content {
+    max-width: 900px; /* Limit content width */
+    margin: 0 auto; /* Center content */
+    padding-bottom: 60px;
+}
+
+.offer-content p {
+    font-size: 1.1rem;
+    line-height: 1.8;
+    margin-bottom: 20px;
+    color: var(--text-color);
+}
+
+.offer-cta {
+    margin-top: 50px;
+    padding: 30px;
+    background-color: #f8f8f8;
+    border-radius: 8px;
+    text-align: center;
+}
+
+.offer-cta h3 {
+    color: var(--primary-color);
+    font-size: 1.6rem;
+    margin-bottom: 10px;
+}
+
+.offer-cta p {
+    font-size: 1rem;
+    color: var(--light-text);
+    margin-bottom: 25px;
+}
+
+@media (max-width: 768px) {
+    .offer-hero h1 {
+        font-size: 2rem;
+    }
+    .offer-content p {
+        font-size: 1rem;
+    }
+}

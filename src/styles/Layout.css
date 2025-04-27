@@ -1,0 +1,20 @@
+/* ./src/styles/Layout.css */
+.main-content-area {
+    /* Adjust this value based on the actual height of .fixed-header-wrapper */
+    padding-top: 95px; /* Example: 30px top-strip + 65px header */
+    min-height: calc(100vh - 95px - 200px); /* Optional: Ensure minimum height */
+                                           /* Adjust footer height estimate */
+    /* Add horizontal padding if you want it consistent across all pages */
+    /* max-width: 1200px; */
+    /* margin: 0 auto; */
+    /* padding-left: 15px; */
+    /* padding-right: 15px; */
+  }
+  
+  @media (max-width: 768px) {
+    .main-content-area {
+      /* Adjust padding for smaller header height if needed */
+      padding-top: 85px; /* Example: 30px top-strip + 55px scrolled header */
+      min-height: calc(100vh - 85px - 180px); /* Adjust */
+    }
+  }

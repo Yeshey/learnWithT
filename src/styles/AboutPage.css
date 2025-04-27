@@ -1,0 +1,58 @@
+/* ./src/styles/AboutPage.css */
+.about-page {
+    padding: 60px 0;
+    background-color: #fff; /* Example background */
+}
+
+.about-content {
+    display: grid;
+    grid-template-columns: 1fr 2fr; /* Image | Text */
+    gap: 40px;
+    align-items: center; /* Vertically align image and text block */
+    margin-top: 30px;
+}
+
+.about-image img {
+    width: 100%;
+    height: auto;
+    border-radius: 8px;
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    object-fit: cover; /* Ensure image covers space nicely */
+    max-height: 500px; /* Limit image height */
+}
+
+.about-text h3 {
+    color: var(--primary-color);
+    font-size: 1.8rem;
+    margin-bottom: 20px;
+}
+
+.about-text p {
+    font-size: 1rem;
+    line-height: 1.7;
+    margin-bottom: 15px;
+    color: var(--text-color);
+}
+
+@media (max-width: 992px) {
+    .about-content {
+        grid-template-columns: 1fr; /* Stack image and text */
+        gap: 30px;
+    }
+    .about-image {
+        max-width: 400px; /* Limit image size when stacked */
+        margin: 0 auto 20px; /* Center image */
+    }
+}
+
+@media (max-width: 768px) {
+    .about-page {
+        padding: 40px 0;
+    }
+    .about-text h3 {
+        font-size: 1.5rem;
+    }
+    .about-text p {
+        font-size: 0.95rem;
+    }
+}

@@ -199,6 +199,38 @@
   }
 }
 
+/* Navigation link styles */
+.main-nav a {
+  font-size: 0.9rem;
+  font-weight: 500;
+  color: var(--primary-color);
+  position: relative;
+  text-decoration: none;
+  padding-bottom: 8px; /* Add padding for underline */
+}
+
+.main-nav a::after {
+  content: '';
+  position: absolute;
+  width: 0;
+  height: 2px;
+  bottom: 5px; /* Adjust position */
+  left: 0;
+  background-color: var(--accent-color);
+  transition: width 0.3s;
+}
+
+.main-nav a:hover::after,
+.main-nav a.active-link::after { /* Style active link underline */
+  width: 100%;
+}
+
+/* Optional: Add more distinct style for active link text */
+.main-nav a.active-link {
+  color: var(--accent-color); /* Example: change text color */
+  font-weight: 700;
+}
+
 @media (max-width: 768px) {
   /* Contact info in top-strip remains visible as requested */
   /* REMOVED rule that previously hid .contact-info */

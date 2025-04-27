@@ -1,55 +1,59 @@
 import React from 'react';
 import '../styles/Services.css';
+import { Link } from 'react-router-dom'; // Use regular Link
 
 const Services: React.FC = () => {
   return (
-    <section className="services" id="services">
-      <div className="container">
+    // Removed outer <section> tag, HomePage.tsx provides wrapper <div id="offers">
+     <div className="container services-container"> {/* Added specific container class */}
         <div className="section-heading">
-          <h2>Join a thriving community of satisfied students</h2>
+          <h2>What Do I Offer?</h2>
           <div className="divider"></div>
         </div>
-        
-        <div className="testimonials-grid">
-          <div className="testimonial-card">
-            <div className="testimonial-image">
-              {/* Video placeholder */}
-              <div className="play-icon"></div>
+
+        <div className="services-grid">
+          {/* Card 1 */}
+          <div className="service-card">
+            <div className="service-image service-image-1"></div>
+            <div className="service-content">
+              <h3>Live Or Online Digital Group Sessions In Funchal, Madeira Island</h3>
+              <p>These sessions are designed for all levels...</p>
+              {/* Link to detail page */}
+              <Link to="/offer/group-funchal" className="btn">Learn More</Link>
             </div>
           </div>
-          
-          <div className="testimonials-group">
-            <div className="testimonial-item">
-              <blockquote>
-                "Since September 2020 I Have Been Learning Portuguese With Ana. Taking Online Sessions And In-Person Classes When Possible. Her Energy, Patience And Good Pace Would Definitely Recommend If You Want To Work On Your Portuguese!""
-              </blockquote>
-              <cite>Matthijs Poelman</cite>
+
+          {/* Card 2 */}
+          <div className="service-card">
+             <div className="service-image service-image-2"></div>
+            <div className="service-content">
+              <h3>Online Group Sessions</h3>
+              <p>Join a mini-community meet new and interesting people...</p>
+              <Link to="/offer/group-online" className="btn">Learn More</Link>
             </div>
-            
-            <div className="testimonial-item">
-              <blockquote>
-                "Dedicated, Kind And Methodical. Ana's Approach To Cover Writing, Listening, Speaking Language Skills. This Lady Knows Exactly What She Is Doing!"
-              </blockquote>
-              <cite>Melissa Peterson</cite>
+          </div>
+
+          {/* Card 3 */}
+          <div className="service-card">
+             <div className="service-image service-image-3"></div>
+            <div className="service-content">
+              <h3>Online 1-On-1 Sessions</h3>
+              <p>Designed for every current level 1-5...</p>
+             <Link to="/offer/private-1on1" className="btn">Learn More</Link>
             </div>
-            
-            <div className="testimonial-item">
-              <blockquote>
-                "Thoroughly Enjoy My Classes With Tânia. Her Cover A Variety In Each Lesson So That We're Always Reading, Writing, Smiling And Speaking Each Time. She Is Very Patient And Always Gives Recommendations And Respect For Foreigners Like Me. Thank You Ana!"
-              </blockquote>
-              <cite>Georgia Richards</cite>
-            </div>
-            
-            <div className="testimonial-item">
-              <blockquote>
-                "Ana Is Currently Doing Lessons With Me Via Skype With My 10 Year Old Son. We Are Moving To Portugal In August 2023 And Already He Has Learnt So Much From Her And Is Really Looking Forward To His Lessons Every Week."
-              </blockquote>
-              <cite>Jenny Thomas</cite>
+          </div>
+
+          {/* Card 4 */}
+          <div className="service-card">
+            <div className="service-image service-image-4"></div>
+            <div className="service-content">
+              <h3>Online 1-On-2 Sessions</h3>
+              <p>Lessons are tailored specifically to reach of two...</p>
+              <Link to="/offer/private-1on2" className="btn">Learn More</Link>
             </div>
           </div>
         </div>
       </div>
-    </section>
   );
 };
 

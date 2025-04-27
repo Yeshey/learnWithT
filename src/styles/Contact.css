@@ -1,4 +1,4 @@
-/* ./src/styles/Contact.css - No changes needed */
+/* ./src/styles/Contact.css */
 .contact {
   padding: 80px 0;
   background-color: #fff;
@@ -40,7 +40,7 @@
   justify-content: center;
   margin-right: 15px;
   flex-shrink: 0;
-  font-size: 1.2rem; /* Added font-size for icons inside info-icon */
+  font-size: 1.2rem;
 }
 
 .info-item a,
@@ -57,21 +57,29 @@
 .social-link {
   width: 40px;
   height: 40px;
-  background-color: #fff; /* var(--primary-color); */
-  color: #fff; /* This should make the icon white */
+  background-color: var(--primary-color); /* Reverted */
+  color: #fff;
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
   margin-right: 15px;
   transition: background-color 0.3s;
-  font-size: 1.2rem; /* Adjust icon size if needed */
+  font-size: 1.2rem;
+}
+
+.social-link svg { /* Ensure this is present */
+  fill: #fff;
 }
 
 .social-link:hover {
   background-color: var(--accent-color);
   color: #fff;
 }
+.social-link:hover svg { /* Ensure this is present */
+  fill: #fff;
+}
+
 
 .form-group {
   margin-bottom: 20px;
@@ -107,21 +115,7 @@
   color: var(--light-text);
 }
 
-.contact-info-form {
-  margin-right: 30px; /* Keep some space before nav/button */
-}
-
-.contact-info-form .phone-icon {
-  color: var(--primary-color);
-  margin-right: 8px; /* Space between icon and number */
-  font-size: 0.9rem; /* Match text size or adjust as needed */
-}
-
-.contact-info-form a {
-  font-size: 0.9rem;
-  color: var(--primary-color);
-  font-weight: 500; /* Make it slightly bolder */
-}
+/* REMOVE the .contact-info-form styles you added */
 
 @media (max-width: 992px) {
   .contact-container {
