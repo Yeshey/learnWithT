@@ -1,17 +1,24 @@
 {
   "compilerOptions": {
-    "module": "NodeNext",
-    "esModuleInterop": true,
-    "moduleResolution": "nodenext",
+    "module": "commonjs", // Essential for Cloud Functions
     "noImplicitReturns": true,
-    "noUnusedLocals": true,
-    "outDir": "lib",
+    "noUnusedLocals": false, // Set to false or remove if you want warnings instead of errors for unused vars during dev build
+    "outDir": "lib", // Output directory for compiled JS
     "sourceMap": true,
     "strict": true,
-    "target": "es2017"
+    "target": "es2017", // Or a later ES version supported by your Node.js runtime
+    "moduleResolution": "node", // Crucial for finding modules in node_modules
+    "esModuleInterop": true, // Recommended for compatibility
+    "resolveJsonModule": true // Often useful
+    // Add skipLibCheck if you encounter persistent issues with library types, but try without first
+    // "skipLibCheck": true
   },
   "compileOnSave": true,
   "include": [
-    "src"
+    "src" // Make sure it includes your source directory
+  ],
+  "exclude": [
+    "node_modules", // Make sure node_modules is excluded
+    "lib" // Exclude compiled output
   ]
 }
