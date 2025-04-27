@@ -1,6 +1,5 @@
 import React from 'react';
 import '../styles/TranslationsPage.css'; // Create this CSS file
-import { Link } from 'react-router-dom';
 import { HashLink } from 'react-router-hash-link';
 // import translationImage from '../assets/images/translations-hero.jpg'; // Add a relevant hero image
 

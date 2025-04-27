@@ -9,6 +9,7 @@ on:
 permissions:
   contents: write
   pull-requests: write
+  workflows: write # <<< ADD THIS LINE
 
 jobs:
   propose-node-update:
@@ -17,6 +18,8 @@ jobs:
       latest_lts_major: ${{ steps.get_versions.outputs.latest_lts_major }}
       needs_update: ${{ steps.get_versions.outputs.needs_update }}
     steps:
+      # ... rest of the steps remain the same ...
+
       - name: Checkout Repository
         uses: actions/checkout@v4
 
@@ -66,9 +69,8 @@ jobs:
         with:
           token: ${{ secrets.GITHUB_TOKEN }}
           commit-message: "chore(ci): propose Node.js v${{ steps.get_versions.outputs.latest_lts_major }} update in workflows"
-          # Corrected committer and author lines:
           committer: GitHub <noreply@github.com>
-          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com> # Use github.actor twice for email
+          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
           signoff: false
           branch: chore/propose-node-version-${{ steps.get_versions.outputs.latest_lts_major }}
           delete-branch: true
