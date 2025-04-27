@@ -1,4 +1,6 @@
 import React, { useState, useEffect } from 'react';
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'; // Import
+import { faPhone } from '@fortawesome/free-solid-svg-icons'; // Import phone icon
 import '../styles/Header.css';
 
 const Header: React.FC = () => {
@@ -28,7 +30,9 @@ const Header: React.FC = () => {
         <div className="logo-container">
           <a href="/" className="logo">Speak Portuguese<br />With Tânia</a>
         </div>
+        {/* Updated contact info */}
         <div className="contact-info">
+          <FontAwesomeIcon icon={faPhone} className="phone-icon" /> {/* Add Icon */}
           <a href="tel:+351913386788">+351 913 386 788</a>
         </div>
         <button className={`mobile-menu-btn ${menuOpen ? 'open' : ''}`} onClick={toggleMenu}>
