@@ -1,14 +1,14 @@
 {
   "files": {
-    "main.css": "/learnWithT/static/css/main.948a4f8e.css",
-    "main.js": "/learnWithT/static/js/main.ed20bb17.js",
+    "main.css": "/learnWithT/static/css/main.6a227ba9.css",
+    "main.js": "/learnWithT/static/js/main.497b4856.js",
     "static/media/tania-profile.jpg": "/learnWithT/static/media/tania-profile.96fa697ca92861a8f8a1.jpg",
     "index.html": "/learnWithT/index.html",
-    "main.948a4f8e.css.map": "/learnWithT/static/css/main.948a4f8e.css.map",
-    "main.ed20bb17.js.map": "/learnWithT/static/js/main.ed20bb17.js.map"
+    "main.6a227ba9.css.map": "/learnWithT/static/css/main.6a227ba9.css.map",
+    "main.497b4856.js.map": "/learnWithT/static/js/main.497b4856.js.map"
   },
   "entrypoints": [
-    "static/css/main.948a4f8e.css",
-    "static/js/main.ed20bb17.js"
+    "static/css/main.6a227ba9.css",
+    "static/js/main.497b4856.js"
   ]
 }
