@@ -3,6 +3,8 @@ Best way to learn Portuguese
 
 View the site at: https://Yeshey.github.io/learnWithT
 
+See emails sent through the form stats through: https://formspree.io/forms/mkgrgyqn/overview
+
 ## Get started in development:
 
 1. Install `nodejs`, or do `nix develop` if you have nix installed, or `direnv allow` if you have nix and direnv installed.
