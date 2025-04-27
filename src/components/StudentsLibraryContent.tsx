@@ -1,5 +1,5 @@
 import React from 'react';
-import '../styles/StudentsLibraryPage.css'; // Create this CSS file
+import '../styles/StudentsLibraryContent.css'; // Create this CSS file
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faBook, faHeadphones, faFileAlt, faLaptop } from '@fortawesome/free-solid-svg-icons';
 import { HashLink } from 'react-router-hash-link';

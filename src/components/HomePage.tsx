@@ -11,7 +11,7 @@ import Contact from './Contact';
 import '../styles/HomePage.css'; // Make sure this file exists
 import '../styles/Services.css';
 import '../styles/Testimonials.css';
-import '../styles/StudentsLibraryPage.css';
+import '../styles/StudentsLibraryContent.css';
 import '../styles/Contact.css';
 
 
