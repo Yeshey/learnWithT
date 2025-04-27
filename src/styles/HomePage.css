@@ -117,3 +117,53 @@
       font-size: 1.6rem;
     }
   }
+
+  /* Default spacing for all homepage sections */
+.homepage-section {
+  padding: 60px 0; /* Adjust vertical padding as needed for space */
+  /* Add scroll-margin-top equal to your fixed header height */
+  /* Measure .fixed-header-wrapper height in dev tools */
+  scroll-margin-top: 95px; /* Example value, ADJUST THIS! */
+}
+
+/* --- Adjust padding for specific sections if needed --- */
+
+/* Keep Hero specific styles if any (like background) */
+.hero-section {
+   /* Override default padding if hero needs different spacing */
+   padding-top: 0; /* Remove top padding if main layout handles it */
+   padding-bottom: 60px; /* Keep bottom padding */
+   /* NO scroll-margin needed for the very first section */
+   scroll-margin-top: 0;
+}
+
+.offers-section {
+   /* Example: Different background */
+   /* background-color: #fff;  */
+}
+
+.stories-section {
+   background-color: #fff; /* Original background for testimonials */
+}
+
+.library-section {
+    background-color: var(--secondary-color); /* Original background */
+}
+
+.contact-section {
+   background-color: #fff; /* Original background */
+}
+
+
+/* --- Responsive Adjustments --- */
+@media (max-width: 768px) {
+  .homepage-section {
+    padding: 40px 0;
+     /* Adjust scroll margin if header height changes on mobile */
+    scroll-margin-top: 85px; /* Example value, ADJUST THIS! */
+  }
+   .hero-section {
+       padding-bottom: 40px;
+       scroll-margin-top: 0;
+   }
+}
