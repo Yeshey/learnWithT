@@ -1,6 +1,7 @@
 import React from 'react';
 import '../styles/TranslationsPage.css'; // Create this CSS file
 import { Link } from 'react-router-dom';
+import { HashLink } from 'react-router-hash-link';
 // import translationImage from '../assets/images/translations-hero.jpg'; // Add a relevant hero image
 
 const TranslationsPage: React.FC = () => {
@@ -56,7 +57,7 @@ const TranslationsPage: React.FC = () => {
          <div className="translation-contact-cta">
             <h3>Need a Translation?</h3>
             <p>Get in touch to discuss your project requirements and receive a personalized quote.</p>
-            <Link to="/contact" className="btn">Request Quote</Link>
+            <HashLink smooth to="/#contact" className="btn">Request Quote</HashLink>
          </div>
       </div>
     </section>

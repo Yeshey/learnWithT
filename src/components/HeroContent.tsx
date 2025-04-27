@@ -1,6 +1,7 @@
 import React from 'react';
 import '../styles/HomePage.css';
 import { Link } from 'react-router-dom';
+import { HashLink } from 'react-router-hash-link';
 
 const HeroContent: React.FC = () => {
   return (
@@ -11,7 +12,7 @@ const HeroContent: React.FC = () => {
           <h1>Learn Portuguese<br />Online Or In Person!</h1>
           <p>All you need is a laptop,<br />a good internet connection<br />and motivation!</p>
           {/*<a href="#contact" className="btn">Let's Learn</a>*/}
-          <Link to="/contact" className="btn">Let's Learn</Link>
+          <HashLink smooth to="/#contact" className="btn">Let's Learn</HashLink>
         </div>
         <div className="hero-image">
           {/* Image is handled by CSS background in production */}
