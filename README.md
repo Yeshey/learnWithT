@@ -152,3 +152,11 @@ Please provide exactly:
   - Realtime Database → its URL (`https://…firebaseio.com`)  ([Step-by-step guide on how to set up Firebase for a web application.](https://www.linkedin.com/pulse/step-by-step-guide-how-set-up-firebase-web-maryam-fatima-rajput-aufxf?utm_source=chatgpt.com))  
   - Firestore → confirm region (optional)  ([Step-by-step guide on how to set up Firebase for a web application.](https://www.linkedin.com/pulse/step-by-step-guide-how-set-up-firebase-web-maryam-fatima-rajput-aufxf?utm_source=chatgpt.com))  
 
+## Workdlows auto update
+
+For Worflows to work in this repository, you have to go to `Settings` > `Actions` > `General` > `Workflow permissions` > Select ` Read repository contents and packages permissions` and `Allow GitHub Actions to create and approve pull requests`.
+
+This repo has two workflows:
+
+- `node-lts-version-update.yml` - Runs every month, makes a PR to updates the version of node in `.nvmrc` to the latest found LTS version of nodeJS;
+- `auto-dependency-deploy.yml` - Runs every week, updates dependencies, builds and tests, and deploys if there were no errors.
