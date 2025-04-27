@@ -6,11 +6,10 @@ on:
     - cron: '0 6 1 * *'
   workflow_dispatch: # Allows manual triggering
 
-# Define standard permissions
+# Keep minimal permissions
 permissions:
   contents: write
   pull-requests: write
-  # workflows permission removed as it's causing issues
 
 jobs:
   propose-node-update:
@@ -21,9 +20,6 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-        with:
-          # Using the PAT token for checkout to allow workflow file modifications
-          token: ${{ secrets.PAT_TOKEN }} # You need to create this secret
 
       - name: Get Latest LTS and Current Configured Node Version
         id: get_versions
@@ -80,27 +76,42 @@ jobs:
           echo "---------------------"
         shell: bash # Ensure shell is bash for find/sed
 
-      - name: Create Pull Request for Node.js Update (Requires Manual Review & flake.nix update)
+      - name: Create Pull Request for Node.js Update (Without Workflow Changes)
         if: steps.get_versions.outputs.needs_update == 'true'
-        uses: peter-evans/create-pull-request@v6
-        with:
-          token: ${{ secrets.PAT_TOKEN }} # Use PAT instead of GITHUB_TOKEN
-          commit-message: "chore(ci): propose Node.js v${{ steps.get_versions.outputs.latest_lts_major }} update in workflows"
-          committer: GitHub <noreply@github.com>
-          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
-          signoff: false
-          branch: chore/propose-node-version-${{ steps.get_versions.outputs.latest_lts_major }}
-          delete-branch: true
-          title: "chore(ci): Propose Node.js LTS v${{ steps.get_versions.outputs.latest_lts_major }} update for workflows"
-          body: |
-            Automated Node.js version update detected for workflows.
+        run: |
+          # Create a message file for the PR
+          cat > pr_message.md << EOL
+          # Node.js LTS Update Needed
 
-            Proposing update to `node-version` for latest LTS: **v${{ steps.get_versions.outputs.latest_lts_major }}**.
+          Automated Node.js version update detected for workflows.
 
-            **Manual Action Required Before Merging:**
-            *   Review changes to `.github/workflows/*.yml` files.
-            *   **Manually update `flake.nix`** (e.g., `pkgs.nodejs_XX`) to use Node.js **v${{ steps.get_versions.outputs.latest_lts_major }}**.
-            *   Update other project files (`.nvmrc`, `package.json engines`) if needed.
-            *   Test thoroughly after updating all locations.
-            *   Merge this PR **after** updating `flake.nix` and testing.
-          labels: dependencies,ci,automated pr,node-version,needs-manual-action
+          Proposing update to node-version for latest LTS: **v${{ steps.get_versions.outputs.latest_lts_major }}**.
+
+          **Manual Action Required Before Merging:**
+          * Manually update workflow files to use Node.js v${{ steps.get_versions.outputs.latest_lts_major }}
+          * Manually update \`flake.nix\` (e.g., \`pkgs.nodejs_XX\`) to use Node.js v${{ steps.get_versions.outputs.latest_lts_major }}
+          * Update other project files (\`.nvmrc\`, \`package.json engines\`) if needed
+          * Test thoroughly after updating all locations
+          EOL
+
+          # Create a separate branch for the PR, but don't include workflow file changes
+          git checkout -b node-update-needed-v${{ steps.get_versions.outputs.latest_lts_major }}
+          git config --global user.name "GitHub Actions"
+          git config --global user.email "actions@github.com"
+          
+          # Create a marker file to indicate the needed update
+          echo "Update to Node.js v${{ steps.get_versions.outputs.latest_lts_major }} needed" > NODE_UPDATE_NEEDED.md
+          git add NODE_UPDATE_NEEDED.md
+          git commit -m "chore: indicate Node.js v${{ steps.get_versions.outputs.latest_lts_major }} update needed"
+          git push -f origin node-update-needed-v${{ steps.get_versions.outputs.latest_lts_major }}
+          
+          # Use GitHub CLI to create the PR if installed
+          if command -v gh &> /dev/null; then
+            gh pr create --base main --head node-update-needed-v${{ steps.get_versions.outputs.latest_lts_major }} \
+              --title "chore(ci): Node.js LTS v${{ steps.get_versions.outputs.latest_lts_major }} update needed" \
+              --body-file pr_message.md \
+              --label "dependencies,ci,needs-manual-action"
+          else
+            echo "GitHub CLI not installed. Please create PR manually from branch node-update-needed-v${{ steps.get_versions.outputs.latest_lts_major }}"
+          fi
+        shell: bash
