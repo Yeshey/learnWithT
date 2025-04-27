@@ -1,0 +1,105 @@
+name: Propose Node.js LTS Update in .nvmrc
+
+on:
+  schedule:
+    # Runs on the 1st of every month at 06:00 UTC
+    - cron: '0 6 1 * *'
+  workflow_dispatch: # Allows manual triggering
+
+# Permissions needed for the create-pull-request action
+permissions:
+  contents: write         # To commit the .nvmrc change and push the branch
+  pull-requests: write    # To create the pull request
+
+jobs:
+  propose-nvmrc-update:
+    runs-on: ubuntu-latest
+    outputs:
+      latest_lts_major: ${{ steps.get_versions.outputs.latest_lts_major }}
+      needs_update: ${{ steps.get_versions.outputs.needs_update }}
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+
+      - name: Get Latest LTS and Current .nvmrc Version
+        id: get_versions
+        run: |
+          echo "Fetching latest Node.js LTS version..."
+          LATEST_LTS_VERSION=$(curl -s https://nodejs.org/dist/index.json | jq -r '[.[] | select(.lts != false)] | sort_by(.date) | reverse | .[0].version')
+          # Extract just the major version number
+          LATEST_LTS_MAJOR=$(echo $LATEST_LTS_VERSION | sed 's/v\([0-9]*\).*/\1/')
+          echo "Latest LTS Major: ${LATEST_LTS_MAJOR}"
+
+          echo "Reading current version from .nvmrc..."
+          if [[ ! -f ".nvmrc" ]]; then
+            echo "Error: .nvmrc file not found."
+            exit 1
+          fi
+          # Read the file, remove potential 'v' prefix and trim whitespace
+          CURRENT_RAW_VERSION=$(cat .nvmrc | xargs)
+          CURRENT_MAJOR=$(echo $CURRENT_RAW_VERSION | sed 's/^v\?//') # Remove leading 'v' if present
+          echo "Current Configured Major in .nvmrc: ${CURRENT_MAJOR}"
+
+          # Validate that versions are numbers before comparison
+          if ! [[ "$LATEST_LTS_MAJOR" =~ ^[0-9]+$ ]] || ! [[ "$CURRENT_MAJOR" =~ ^[0-9]+$ ]]; then
+             echo "Error: Could not parse valid major version numbers."
+             exit 1
+          fi
+
+          echo "latest_lts_major=${LATEST_LTS_MAJOR}" >> $GITHUB_OUTPUT
+          echo "current_major=${CURRENT_MAJOR}" >> $GITHUB_OUTPUT
+
+          # Compare versions numerically
+          if [[ "$LATEST_LTS_MAJOR" -gt "$CURRENT_MAJOR" ]]; then
+            echo "Update needed."
+            echo "needs_update=true" >> $GITHUB_OUTPUT
+          else
+            echo "No Node.js major version update needed for .nvmrc."
+            echo "needs_update=false" >> $GITHUB_OUTPUT
+          fi
+        shell: bash
+
+      - name: Update .nvmrc File Locally
+        if: steps.get_versions.outputs.needs_update == 'true'
+        run: |
+          LATEST_LTS_MAJOR="${{ steps.get_versions.outputs.latest_lts_major }}"
+          echo "Updating .nvmrc content to ${LATEST_LTS_MAJOR}"
+          # Overwrite the file with just the new major version number
+          echo "${LATEST_LTS_MAJOR}" > .nvmrc
+          echo ".nvmrc content updated:"
+          cat .nvmrc
+          echo "--- Git Status ---"
+          git status --porcelain .nvmrc || echo "No changes detected by git status."
+          echo "------------------"
+        shell: bash
+
+      # Use peter-evans action to create PR containing only the .nvmrc change
+      - name: Create Pull Request for .nvmrc Update
+        if: steps.get_versions.outputs.needs_update == 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }} # Use the default token
+          # Commit message reflects the change being made
+          commit-message: "chore(node): update .nvmrc to Node.js LTS v${{ steps.get_versions.outputs.latest_lts_major }}"
+          committer: GitHub Actions Bot <actions@github.com> # Optional: Specify committer
+          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+          signoff: false
+          # Branch name specific to the action taken
+          branch: chore/update-nvmrc-node-v${{ steps.get_versions.outputs.latest_lts_major }}
+          delete-branch: true
+          # Title reflects the actual change
+          title: "chore(node): Update .nvmrc to Node.js LTS v${{ steps.get_versions.outputs.latest_lts_major }}"
+          # Body explains the change and required manual steps
+          body: |
+            The latest Node.js LTS version is **v${{ steps.get_versions.outputs.latest_lts_major }}**.
+
+            This PR updates the `.nvmrc` file accordingly.
+
+            **Manual Action Required Before Merging:**
+            1.  Review this change to `.nvmrc`.
+            2.  **Manually update `flake.nix`** (e.g., `pkgs.nodejs_XX`) to use Node.js **v${{ steps.get_versions.outputs.latest_lts_major }}**.
+            3.  Update other project files (`package.json engines`, etc.) if needed.
+            4.  Run `npm install` or `npm ci` locally with the new Node version active.
+            5.  Test the application thoroughly (`npm run build`, `npm test`, manual testing).
+            6.  Merge this PR **after** updating `flake.nix` and testing successfully.
+          labels: dependencies,node-version,needs-manual-action

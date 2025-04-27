@@ -2,13 +2,12 @@ name: Weekly Dependency Update and Deploy
 
 on:
   schedule:
-    # Runs every Monday at 05:00 UTC (adjust as needed)
+    # Runs every Monday at 05:00 UTC
     - cron: '0 5 * * 1'
   workflow_dispatch: # Allows manual triggering
 
-# Permissions needed for the workflow actions
 permissions:
-  contents: write # Needed to commit/push changes to the branch (package-lock.json, maybe package.json) and for gh-pages deploy
+  contents: write # Needed for commit/push of package-lock & gh-pages deploy
 
 jobs:
   update-and-deploy:
@@ -18,16 +17,19 @@ jobs:
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
-        # Fetch full history needed for gh-pages to check branch existence
         with:
-          fetch-depth: 0
+          fetch-depth: 0 # Needed for gh-pages
+
+      # Read the Node.js version from the file BEFORE setting up Node
+      - name: Read .nvmrc
+        id: node_version
+        run: echo "NODE_VERSION=$(cat .nvmrc | xargs)" >> $GITHUB_OUTPUT # xargs trims whitespace
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          # !!! IMPORTANT: Use the Node.js LTS version from your OTHER workflow or flake.nix !!!
-          # Example: If your other workflow updated to v20, use 20 here.
-          node-version: '18' # <<<--- ADJUST THIS TO MATCH YOUR PROJECT'S CURRENT LTS
+          # Use the version read from the file
+          node-version: ${{ steps.node_version.outputs.NODE_VERSION }}
           cache: 'npm'
 
       - name: Configure Git User
@@ -35,21 +37,19 @@ jobs:
           git config user.name "GitHub Actions Bot"
           git config user.email "actions@github.com"
 
+      # --- Rest of the steps remain the same ---
       - name: Install Dependencies (Clean Install)
         run: npm ci
 
       - name: Check for Outdated Dependencies (Informational)
-        run: npm outdated || true # Run outdated check, continue even if some are found
+        run: npm outdated || true
 
       - name: Update Dependencies
         run: npm update
 
-      # Check if package-lock.json changed. If not, no need to proceed.
       - name: Check for file changes
         id: check_changes
         run: |
-          # Use git status to see if package-lock.json or package.json were modified
-          git status --porcelain package-lock.json package.json
           if git status --porcelain package-lock.json package.json | grep -qE '^\s?[AM]'; then
             echo "changes_detected=true" >> $GITHUB_OUTPUT
             echo "Detected changes in package files."
@@ -58,46 +58,41 @@ jobs:
             echo "No dependency changes detected."
           fi
 
-      # Only run build/test/commit/deploy if changes were detected
       - name: Build Project
         if: steps.check_changes.outputs.changes_detected == 'true'
         run: npm run build
 
       - name: Run Tests (Optional but Recommended)
         if: steps.check_changes.outputs.changes_detected == 'true'
-        run: npm test # Assumes you have a test script configured
+        run: npm test
 
       - name: Commit Dependency Updates
         if: steps.check_changes.outputs.changes_detected == 'true'
         run: |
-          # Add only package.json and package-lock.json
           git add package.json package-lock.json
-          # Check if there are staged changes before committing
           if ! git diff --staged --quiet; then
             git commit -m "chore(deps): automatically update npm dependencies"
             echo "Changes committed."
           else
-            echo "No staged changes to commit (this shouldn't happen if changes_detected was true)."
-            # Force changes_detected to false for deploy step if commit failed unexpectedly
-            echo "changes_detected=false" >> $GITHUB_OUTPUT
+            echo "No staged changes to commit."
+            echo "changes_detected=false" >> $GITHUB_OUTPUT # Override if commit failed
           fi
 
       - name: Push Changes to Main Branch
         if: steps.check_changes.outputs.changes_detected == 'true'
         run: |
           echo "Pushing changes to main branch..."
-          git push origin main # Push committed changes directly
+          git push origin main
 
       - name: Deploy to GitHub Pages
-        if: steps.check_changes.outputs.changes_detected == 'true'
+        # Always run deploy after a push, OR keep condition if only deploying on change
+        # if: steps.check_changes.outputs.changes_detected == 'true' # Keep if desired
         run: |
           echo "Deploying build directory to gh-pages branch..."
-          # Ensure build directory exists after successful build step
           if [ ! -d "build" ]; then
             echo "Error: 'build' directory not found after build step."
             exit 1
           fi
-          # Your existing deploy script likely handles the gh-pages logic
           npm run deploy
           echo "Deployment command executed."
 
