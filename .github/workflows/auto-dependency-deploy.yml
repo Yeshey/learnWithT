@@ -1,65 +1,106 @@
-name: Update NPM Dependencies (Create PR)
+name: Weekly Dependency Update and Deploy
 
 on:
   schedule:
-    # Runs every Monday at 05:00 UTC
+    # Runs every Monday at 05:00 UTC (adjust as needed)
     - cron: '0 5 * * 1'
   workflow_dispatch: # Allows manual triggering
 
+# Permissions needed for the workflow actions
 permissions:
-  contents: write
-  pull-requests: write
+  contents: write # Needed to commit/push changes to the branch (package-lock.json, maybe package.json) and for gh-pages deploy
 
 jobs:
-  update-deps-pr:
+  update-and-deploy:
+    name: Update Dependencies & Deploy
     runs-on: ubuntu-latest
+
     steps:
       - name: Checkout Repository
         uses: actions/checkout@v4
+        # Fetch full history needed for gh-pages to check branch existence
+        with:
+          fetch-depth: 0
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          # Updated to use the current LTS version
-          node-version: '20' # Updated from '18' to '20'
+          # !!! IMPORTANT: Use the Node.js LTS version from your OTHER workflow or flake.nix !!!
+          # Example: If your other workflow updated to v20, use 20 here.
+          node-version: '20' # <<<--- ADJUST THIS TO MATCH YOUR PROJECT'S CURRENT LTS
           cache: 'npm'
 
-      - name: Install Dependencies (Clean Slate)
+      - name: Configure Git User
+        run: |
+          git config user.name "GitHub Actions Bot"
+          git config user.email "actions@github.com"
+
+      - name: Install Dependencies (Clean Install)
         run: npm ci
+
+      - name: Check for Outdated Dependencies (Informational)
+        run: npm outdated || true # Run outdated check, continue even if some are found
 
       - name: Update Dependencies
         run: npm update
 
-      # --- Optional but Recommended: Check if updates break build/tests ---
-      - name: Build Project Check
-        run: npm run build
-      # - name: Run Tests Check
-      #   run: npm test
-      # -------------------------------------------------------------------
-
-      - name: Create Package Updates PR
-        env:
-          GH_TOKEN: ${{ github.token }}
+      # Check if package-lock.json changed. If not, no need to proceed.
+      - name: Check for file changes
+        id: check_changes
         run: |
-          # Configure git
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "actions@github.com"
-          
-          # Create a branch
-          git checkout -b chore/npm-dependency-updates
-          
-          # Check if there are changes
-          if ! git diff --quiet package.json package-lock.json; then
-            # Commit changes
-            git add package.json package-lock.json
-            git commit -m "chore(deps): update npm dependencies"
-            git push -f origin chore/npm-dependency-updates
-            
-            # Create PR without labels
-            gh pr create --base main --head chore/npm-dependency-updates \
-              --title "chore(deps): Update NPM dependencies" \
-              --body "Automated dependency update via GitHub Actions.\n\nUpdates npm dependencies based on \`package.json\` constraints.\nPlease review changes and test thoroughly before merging."
+          # Use git status to see if package-lock.json or package.json were modified
+          git status --porcelain package-lock.json package.json
+          if git status --porcelain package-lock.json package.json | grep -qE '^\s?[AM]'; then
+            echo "changes_detected=true" >> $GITHUB_OUTPUT
+            echo "Detected changes in package files."
           else
-            echo "No dependency updates found."
+            echo "changes_detected=false" >> $GITHUB_OUTPUT
+            echo "No dependency changes detected."
           fi
-        shell: bash
+
+      # Only run build/test/commit/deploy if changes were detected
+      - name: Build Project
+        if: steps.check_changes.outputs.changes_detected == 'true'
+        run: npm run build
+
+      - name: Run Tests (Optional but Recommended)
+        if: steps.check_changes.outputs.changes_detected == 'true'
+        run: npm test # Assumes you have a test script configured
+
+      - name: Commit Dependency Updates
+        if: steps.check_changes.outputs.changes_detected == 'true'
+        run: |
+          # Add only package.json and package-lock.json
+          git add package.json package-lock.json
+          # Check if there are staged changes before committing
+          if ! git diff --staged --quiet; then
+            git commit -m "chore(deps): automatically update npm dependencies"
+            echo "Changes committed."
+          else
+            echo "No staged changes to commit (this shouldn't happen if changes_detected was true)."
+            # Force changes_detected to false for deploy step if commit failed unexpectedly
+            echo "changes_detected=false" >> $GITHUB_OUTPUT
+          fi
+
+      - name: Push Changes to Main Branch
+        if: steps.check_changes.outputs.changes_detected == 'true'
+        run: |
+          echo "Pushing changes to main branch..."
+          git push origin main # Push committed changes directly
+
+      - name: Deploy to GitHub Pages
+        if: steps.check_changes.outputs.changes_detected == 'true'
+        run: |
+          echo "Deploying build directory to gh-pages branch..."
+          # Ensure build directory exists after successful build step
+          if [ ! -d "build" ]; then
+            echo "Error: 'build' directory not found after build step."
+            exit 1
+          fi
+          # Your existing deploy script likely handles the gh-pages logic
+          npm run deploy
+          echo "Deployment command executed."
+
+      - name: No Changes Detected - Workflow Complete
+        if: steps.check_changes.outputs.changes_detected == 'false'
+        run: echo "No dependency updates found or committed. Skipping build, commit, and deploy."

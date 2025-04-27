@@ -6,10 +6,12 @@ on:
     - cron: '0 6 1 * *'
   workflow_dispatch: # Allows manual triggering
 
-# Keep minimal permissions
+# Define permissions needed by the actions used in the workflow
+# Relying on Repository Setting "Read and write permissions" for the ability
+# for the token to push commits modifying *.yml files in .github/workflows/
 permissions:
-  contents: write
-  pull-requests: write
+  contents: write         # Needed by checkout@v4 and create-pull-request@v6
+  pull-requests: write    # Needed by create-pull-request@v6
 
 jobs:
   propose-node-update:
@@ -31,11 +33,10 @@ jobs:
 
           echo "Finding current Node version configured in primary workflow..."
           # IMPORTANT: Verify this path points to your MAIN workflow that defines the Node version
-          PRIMARY_WORKFLOW_FILE=".github/workflows/auto-dependency-deploy.yml"
+          PRIMARY_WORKFLOW_FILE=".github/workflows/auto-dependency-deploy.yml" # CHECK THIS PATH
           if [[ ! -f "$PRIMARY_WORKFLOW_FILE" ]]; then
              echo "Error: Primary workflow file not found at $PRIMARY_WORKFLOW_FILE"
-             # Optional: Search for other workflow files or fail gracefully
-             # Example: Try finding any file with node-version
+             # Attempt to find *any* workflow using node-version as a fallback
              PRIMARY_WORKFLOW_FILE=$(grep -l -m 1 'node-version:' .github/workflows/*.yml | head -n 1)
              if [[ -z "$PRIMARY_WORKFLOW_FILE" ]]; then
                 echo "Error: Could not find any workflow file defining node-version."
@@ -65,50 +66,45 @@ jobs:
           fi
         shell: bash
 
-      - name: Update node-version in ALL Workflow Files
+      - name: Update node-version in Target Workflow File(s) # Renamed for clarity
         if: steps.get_versions.outputs.needs_update == 'true'
         run: |
-          echo "Updating node-version to ${{ steps.get_versions.outputs.latest_lts_major }} in .github/workflows/*.yml"
-          find .github/workflows -name '*.yml' -exec sed -i -E "s/(node-version:[[:space:]]*['\"]?)[0-9]+([\.\w]*['\"]?)/\1${{ steps.get_versions.outputs.latest_lts_major }}\2/" {} \;
-          echo "--- Files Modified ---"
-          # Use git diff to show changes clearly
+          LATEST_LTS_MAJOR="${{ steps.get_versions.outputs.latest_lts_major }}"
+          echo "Updating node-version to ${LATEST_LTS_MAJOR} in .github/workflows/*.yml"
+          # Use find and sed to modify the actual workflow files
+          find .github/workflows -name '*.yml' -exec sed -i -E "s/(node-version:[[:space:]]*['\"]?)[0-9]+([\.\w]*['\"]?)/\1${LATEST_LTS_MAJOR}\2/" {} \;
+          echo "--- Files Modified (if any) ---"
+          # Show the changes that were actually made by sed
           git diff -- .github/workflows/
-          echo "---------------------"
-        shell: bash # Ensure shell is bash for find/sed
-
-      - name: Create Pull Request for Node.js Update
-        if: steps.get_versions.outputs.needs_update == 'true'
-        env:
-          GH_TOKEN: ${{ github.token }}
-        run: |
-          # Create a message file for the PR
-          cat > pr_message.md << EOL
-          # Node.js LTS Update Needed
-
-          Automated Node.js version update detected for workflows.
-
-          Proposing update to node-version for latest LTS: **v${{ steps.get_versions.outputs.latest_lts_major }}**.
-
-          **Manual Action Required Before Merging:**
-          * Manually update workflow files to use Node.js v${{ steps.get_versions.outputs.latest_lts_major }}
-          * Manually update \`flake.nix\` (e.g., \`pkgs.nodejs_XX\`) to use Node.js v${{ steps.get_versions.outputs.latest_lts_major }}
-          * Update other project files (\`.nvmrc\`, \`package.json engines\`) if needed
-          * Test thoroughly after updating all locations
-          EOL
-
-          # Create a separate branch for the PR, but don't include workflow file changes
-          git checkout -b node-update-needed-v${{ steps.get_versions.outputs.latest_lts_major }}
-          git config --global user.name "GitHub Actions"
-          git config --global user.email "actions@github.com"
-          
-          # Create a marker file to indicate the needed update
-          echo "Update to Node.js v${{ steps.get_versions.outputs.latest_lts_major }} needed" > NODE_UPDATE_NEEDED.md
-          git add NODE_UPDATE_NEEDED.md
-          git commit -m "chore: indicate Node.js v${{ steps.get_versions.outputs.latest_lts_major }} update needed"
-          git push -f origin node-update-needed-v${{ steps.get_versions.outputs.latest_lts_major }}
-          
-          # Create PR without specifying labels
-          gh pr create --base main --head node-update-needed-v${{ steps.get_versions.outputs.latest_lts_major }} \
-            --title "chore(ci): Node.js LTS v${{ steps.get_versions.outputs.latest_lts_major }} update needed" \
-            --body-file pr_message.md
+          echo "-------------------------------"
         shell: bash
+
+      # Use peter-evans action to create PR from the modified files
+      - name: Create Pull Request for Node.js Workflow Update
+        if: steps.get_versions.outputs.needs_update == 'true'
+        uses: peter-evans/create-pull-request@v6
+        with:
+          token: ${{ secrets.GITHUB_TOKEN }}
+          # Commit message reflects the change made by the previous step
+          commit-message: "chore(ci): update node-version to v${{ steps.get_versions.outputs.latest_lts_major }} in workflows"
+          committer: GitHub <noreply@github.com>
+          author: ${{ github.actor }} <${{ github.actor }}@users.noreply.github.com>
+          signoff: false
+          # Branch name specific to the action taken
+          branch: chore/update-workflow-node-version-${{ steps.get_versions.outputs.latest_lts_major }}
+          delete-branch: true
+          # Title reflects the actual change
+          title: "chore(ci): Update Node.js to LTS v${{ steps.get_versions.outputs.latest_lts_major }} in workflows"
+          # Body explains the change and required manual steps
+          body: |
+            Automated Node.js version update detected for workflows.
+
+            This PR updates the `node-version` to the latest LTS: **v${{ steps.get_versions.outputs.latest_lts_major }}** in relevant workflow files.
+
+            **Manual Action Required Before Merging:**
+            *   Review changes to `.github/workflows/*.yml` files made in this PR's commit.
+            *   **Manually update `flake.nix`** (e.g., `pkgs.nodejs_XX`) to use Node.js **v${{ steps.get_versions.outputs.latest_lts_major }}**.
+            *   Update other project files (`.nvmrc`, `package.json engines`) if needed.
+            *   Test thoroughly after updating all locations.
+            *   Merge this PR **after** updating `flake.nix` and testing.
+          labels: dependencies,ci,automated pr,node-version,needs-manual-action
