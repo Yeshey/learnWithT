@@ -78,6 +78,8 @@ jobs:
 
       - name: Create Pull Request for Node.js Update (Without Workflow Changes)
         if: steps.get_versions.outputs.needs_update == 'true'
+        env:
+          GH_TOKEN: ${{ github.token }}
         run: |
           # Create a message file for the PR
           cat > pr_message.md << EOL
@@ -105,13 +107,9 @@ jobs:
           git commit -m "chore: indicate Node.js v${{ steps.get_versions.outputs.latest_lts_major }} update needed"
           git push -f origin node-update-needed-v${{ steps.get_versions.outputs.latest_lts_major }}
           
-          # Use GitHub CLI to create the PR if installed
-          if command -v gh &> /dev/null; then
-            gh pr create --base main --head node-update-needed-v${{ steps.get_versions.outputs.latest_lts_major }} \
-              --title "chore(ci): Node.js LTS v${{ steps.get_versions.outputs.latest_lts_major }} update needed" \
-              --body-file pr_message.md \
-              --label "dependencies,ci,needs-manual-action"
-          else
-            echo "GitHub CLI not installed. Please create PR manually from branch node-update-needed-v${{ steps.get_versions.outputs.latest_lts_major }}"
-          fi
+          # Use GitHub CLI to create the PR
+          gh pr create --base main --head node-update-needed-v${{ steps.get_versions.outputs.latest_lts_major }} \
+            --title "chore(ci): Node.js LTS v${{ steps.get_versions.outputs.latest_lts_major }} update needed" \
+            --body-file pr_message.md \
+            --label "dependencies,ci,needs-manual-action"
         shell: bash
