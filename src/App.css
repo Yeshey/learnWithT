@@ -1,16 +1,23 @@
 .App {
   position: relative;
   min-height: 100vh;
+  /* Add padding top equal to the estimated combined height of both fixed header parts */
+  /* Adjust this value based on the actual height of .fixed-header-wrapper */
+  padding-top: 95px; /* Example: 30px top-strip + 65px header */
 }
 
 main {
   max-width: 1200px;
   margin: 0 auto;
-  padding: 0 20px;
+  padding: 0 20px; /* Keep horizontal padding */
 }
 
 @media (max-width: 768px) {
   main {
     padding: 0 15px;
+  }
+  .App {
+      /* Adjust padding for smaller header height if needed */
+      padding-top: 85px; /* Example: 30px top-strip + 55px scrolled header */
   }
 }
