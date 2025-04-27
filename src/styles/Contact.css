@@ -107,6 +107,22 @@
   color: var(--light-text);
 }
 
+.contact-info-form {
+  margin-right: 30px; /* Keep some space before nav/button */
+}
+
+.contact-info-form .phone-icon {
+  color: var(--primary-color);
+  margin-right: 8px; /* Space between icon and number */
+  font-size: 0.9rem; /* Match text size or adjust as needed */
+}
+
+.contact-info-form a {
+  font-size: 0.9rem;
+  color: var(--primary-color);
+  font-weight: 500; /* Make it slightly bolder */
+}
+
 @media (max-width: 992px) {
   .contact-container {
     grid-template-columns: 1fr;

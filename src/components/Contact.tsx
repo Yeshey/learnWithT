@@ -42,7 +42,7 @@ const Contact: React.FC = () => {
         </div>
         
         <div className="contact-container">
-          <div className="contact-info">
+          <div className="contact-info-form">
             <h3>Get In Touch</h3>
             <p>I'd love to hear from you! Whether you have questions about my classes, want to schedule a lesson, or just want to chat about learning Portuguese, feel free to reach out.</p>
             
