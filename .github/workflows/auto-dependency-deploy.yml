@@ -20,15 +20,13 @@ jobs:
         with:
           fetch-depth: 0 # Needed for gh-pages
 
-      # Read the Node.js version from the file BEFORE setting up Node
       - name: Read .nvmrc
         id: node_version
-        run: echo "NODE_VERSION=$(cat .nvmrc | xargs)" >> $GITHUB_OUTPUT # xargs trims whitespace
+        run: echo "NODE_VERSION=$(cat .nvmrc | xargs)" >> $GITHUB_OUTPUT
 
       - name: Setup Node.js
         uses: actions/setup-node@v4
         with:
-          # Use the version read from the file
           node-version: ${{ steps.node_version.outputs.NODE_VERSION }}
           cache: 'npm'
 
@@ -37,7 +35,6 @@ jobs:
           git config user.name "GitHub Actions Bot"
           git config user.email "actions@github.com"
 
-      # --- Rest of the steps remain the same ---
       - name: Install Dependencies (Clean Install)
         run: npm ci
 
@@ -85,12 +82,12 @@ jobs:
           git push origin main
 
       - name: Deploy to GitHub Pages
-        # Always run deploy after a push, OR keep condition if only deploying on change
-        # if: steps.check_changes.outputs.changes_detected == 'true' # Keep if desired
+        # Deploy ONLY if dependency changes were detected, built, and (presumably) pushed
+        if: steps.check_changes.outputs.changes_detected == 'true' # <<<--- UNCOMMENTED
         run: |
           echo "Deploying build directory to gh-pages branch..."
           if [ ! -d "build" ]; then
-            echo "Error: 'build' directory not found after build step."
+            echo "Error: 'build' directory not found. Build might have failed or been skipped."
             exit 1
           fi
           npm run deploy
@@ -98,4 +95,4 @@ jobs:
 
       - name: No Changes Detected - Workflow Complete
         if: steps.check_changes.outputs.changes_detected == 'false'
-        run: echo "No dependency updates found or committed. Skipping build, commit, and deploy."
+        run: echo "No dependency updates found or committed. Skipping build, commit, push, and deploy."
