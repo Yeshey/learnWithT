@@ -21,7 +21,7 @@ jobs:
         uses: actions/setup-node@v4
         with:
           # Use the Node.js version specified in your flake.nix or your project standard
-          node-version: '20' # <<< Ensure this matches your current required version
+          node-version: '18' # <<< Ensure this matches your current required version
           cache: 'npm'
 
       - name: Install Dependencies (Clean Slate)
