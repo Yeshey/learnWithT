@@ -1,3 +1,5 @@
+
+/*
 // Import the main package
 import * as functions from "firebase-functions";
 // Explicitly import 'https' from the V1 SDK path
@@ -214,3 +216,7 @@ export const sendContactEmail = https.onCall(
   }
 );
 // Ensure a newline character exists at the end of the file.
+*/
+
+// You can leave an empty export or a placeholder if needed by tooling
+// export {};
