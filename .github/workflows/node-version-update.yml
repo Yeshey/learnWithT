@@ -6,20 +6,17 @@ on:
     - cron: '0 6 1 * *'
   workflow_dispatch: # Allows manual triggering
 
-# REMOVE the permissions block from here
-# permissions:
-#   contents: write
-#   pull-requests: write
-#   workflows: write
+# Top-level permissions are NOT needed here as they are defined per-job
 
 jobs:
   propose-node-update:
     runs-on: ubuntu-latest
-    # ADD the permissions block here, indented under the job
+    # Permissions required for this specific job
     permissions:
-      contents: write
-      pull-requests: write
-      workflows: write # Needed to modify other workflow files
+      contents: write         # Needed to checkout code and commit changes
+      pull-requests: write    # Needed by peter-evans/create-pull-request
+      # REMOVE THE INVALID LINE BELOW:
+      # workflows: write
     outputs:
       latest_lts_major: ${{ steps.get_versions.outputs.latest_lts_major }}
       needs_update: ${{ steps.get_versions.outputs.needs_update }}
@@ -36,7 +33,20 @@ jobs:
           echo "Latest LTS Major: ${LATEST_LTS_MAJOR}"
 
           echo "Finding current Node version configured in primary workflow..."
-          PRIMARY_WORKFLOW_FILE=".github/workflows/auto-dependency-deploy.yml" # CHECK THIS PATH
+          # IMPORTANT: Verify this path points to your MAIN workflow that defines the Node version
+          PRIMARY_WORKFLOW_FILE=".github/workflows/auto-dependency-deploy.yml"
+          if [[ ! -f "$PRIMARY_WORKFLOW_FILE" ]]; then
+             echo "Error: Primary workflow file not found at $PRIMARY_WORKFLOW_FILE"
+             # Optional: Search for other workflow files or fail gracefully
+             # Example: Try finding any file with node-version
+             PRIMARY_WORKFLOW_FILE=$(grep -l -m 1 'node-version:' .github/workflows/*.yml | head -n 1)
+             if [[ -z "$PRIMARY_WORKFLOW_FILE" ]]; then
+                echo "Error: Could not find any workflow file defining node-version."
+                exit 1
+             fi
+             echo "Warning: Using fallback workflow file: $PRIMARY_WORKFLOW_FILE"
+          fi
+
           CURRENT_NODE_LINE=$(grep -m 1 'node-version:' "$PRIMARY_WORKFLOW_FILE")
           CURRENT_MAJOR=$(echo "$CURRENT_NODE_LINE" | sed -n 's/.*node-version:[^0-9]*\([0-9]\+\).*/\1/p')
 
@@ -63,9 +73,11 @@ jobs:
         run: |
           echo "Updating node-version to ${{ steps.get_versions.outputs.latest_lts_major }} in .github/workflows/*.yml"
           find .github/workflows -name '*.yml' -exec sed -i -E "s/(node-version:[[:space:]]*['\"]?)[0-9]+([\.\w]*['\"]?)/\1${{ steps.get_versions.outputs.latest_lts_major }}\2/" {} \;
-          echo "--- Files Updated ---"
-          git status --porcelain
+          echo "--- Files Modified ---"
+          # Use git diff to show changes clearly
+          git diff -- .github/workflows/
           echo "---------------------"
+        shell: bash # Ensure shell is bash for find/sed
 
       - name: Create Pull Request for Node.js Update (Requires Manual Review & flake.nix update)
         if: steps.get_versions.outputs.needs_update == 'true'
