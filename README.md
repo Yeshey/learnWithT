@@ -1,4 +1,4 @@
-# Lear With Tânia
+# Learn With Tânia
 Best way to learn Portuguese
 
 View the site at: https://Yeshey.github.io/learnWithT
