@@ -90,7 +90,14 @@ jobs:
             echo "Error: 'build' directory not found. Build might have failed or been skipped."
             exit 1
           fi
-          npm run deploy
+          # Use npx to run the locally installed gh-pages with authentication
+          # The GITHUB_TOKEN is automatically available in Actions
+          # The GITHUB_REPOSITORY is also automatically available (e.g., YourUsername/learnWithT)
+          npx gh-pages \
+            -d build \
+            -r https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git \
+            -u "GitHub Actions Bot <actions@github.com>" \
+            -m "Deploy: ${{ github.event_name }} triggered by ${{ github.actor }} - ${{ github.sha }}"
           echo "Deployment command executed."
 
       - name: No Changes Detected - Workflow Complete
