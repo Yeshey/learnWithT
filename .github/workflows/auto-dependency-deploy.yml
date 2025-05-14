@@ -82,23 +82,16 @@ jobs:
           git push origin main
 
       - name: Deploy to GitHub Pages
-        # Deploy ONLY if dependency changes were detected, built, and (presumably) pushed
-        if: steps.check_changes.outputs.changes_detected == 'true' # <<<--- UNCOMMENTED
-        run: |
-          echo "Deploying build directory to gh-pages branch..."
-          if [ ! -d "build" ]; then
-            echo "Error: 'build' directory not found. Build might have failed or been skipped."
-            exit 1
-          fi
-          # Use npx to run the locally installed gh-pages with authentication
-          # The GITHUB_TOKEN is automatically available in Actions
-          # The GITHUB_REPOSITORY is also automatically available (e.g., YourUsername/learnWithT)
-          npx gh-pages \
-            -d build \
-            -r https://x-access-token:${GITHUB_TOKEN}@github.com/${GITHUB_REPOSITORY}.git \
-            -u "GitHub Actions Bot <actions@github.com>" \
-            -m "Deploy: ${{ github.event_name }} triggered by ${{ github.actor }} - ${{ github.sha }}"
-          echo "Deployment command executed."
+        if: steps.check_changes.outputs.changes_detected == 'true'
+        uses: peaceiris/actions-gh-pages@v4 # Or latest v3 like v3.9.3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build
+          user_name: 'GitHub Actions Bot'
+          user_email: 'actions@github.com'
+          commit_message: "Deploy: ${{ github.event_name }} triggered by ${{ github.actor }} - ${{ github.sha }}"
+          # Optional: if gh-pages branch is not the default, you might need:
+          # publish_branch: gh-pages
 
       - name: No Changes Detected - Workflow Complete
         if: steps.check_changes.outputs.changes_detected == 'false'
