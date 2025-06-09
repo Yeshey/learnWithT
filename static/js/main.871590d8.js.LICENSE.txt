@@ -70,7 +70,7 @@ PERFORMANCE OF THIS SOFTWARE.
  */
 
 /**
- * react-router v7.6.1
+ * react-router v7.6.2
  *
  * Copyright (c) Remix Software Inc.
  *
