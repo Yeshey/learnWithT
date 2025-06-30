@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/learnWithT/static/css/main.2a3efc3c.css",
-    "main.js": "/learnWithT/static/js/main.d6c67975.js",
+    "main.js": "/learnWithT/static/js/main.5bd27b2f.js",
     "static/media/tania-profile.jpg": "/learnWithT/static/media/tania-profile.96fa697ca92861a8f8a1.jpg",
     "index.html": "/learnWithT/index.html",
     "main.2a3efc3c.css.map": "/learnWithT/static/css/main.2a3efc3c.css.map",
-    "main.d6c67975.js.map": "/learnWithT/static/js/main.d6c67975.js.map"
+    "main.5bd27b2f.js.map": "/learnWithT/static/js/main.5bd27b2f.js.map"
   },
   "entrypoints": [
     "static/css/main.2a3efc3c.css",
-    "static/js/main.d6c67975.js"
+    "static/js/main.5bd27b2f.js"
   ]
 }
