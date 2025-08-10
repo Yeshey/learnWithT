@@ -1,31 +1,66 @@
 import React from 'react';
 import { useParams, Link } from 'react-router-dom';
-import '../styles/OfferDetailPage.css'; // Create this CSS file
 import { HashLink } from 'react-router-hash-link';
+import '../styles/OfferDetailPage.css'; // Create this CSS file
 
-// Define potential offer data structure (replace with actual data source/logic)
-const offerDetailsData: { [key: string]: { title: string; description: string; image?: string } } = {
+// Define the data structure with 'description' as a React.ReactNode
+const offerDetailsData: { [key: string]: { title: string; description: React.ReactNode; image?: string } } = {
     'group-funchal': {
         title: "15 Minutes Free Demo Session",
-        description: "Detailed description about the group sessions held physically in Funchal or joined digitally. Focus on the hybrid aspect, community building in person/online, target levels, typical schedule, benefits of local interaction combined with online flexibility.",
+        description: (
+            <>
+                <p>
+                    This complimentary 15-minute session is the perfect opportunity for us to get to know each other. We can discuss your learning goals, assess your current level, and I can answer any questions you may have. It's a great way to experience my teaching style and see if we're a good fit, with no obligation.
+                </p>
+                <p>
+                  For more details on pricing and packages, please visit <HashLink to="/faq#prices">FAQ: Prices & Plans</HashLink>.
+                </p>
+            </>
+        ),
         // image: "path/to/funchal-group.jpg"
     },
     'group-online': {
         title: "Online Group Sessions",
-        description: "To be discussed. Focus on the mini-community aspect (3-6 students), benefits of diverse participants, session structure, platforms used (Zoom/Jitsi), suitable levels, how interaction is fostered online.",
+        description: (
+             <>
+                <p>
+                    Join a small, dynamic group of 3-6 students for a collaborative and interactive learning experience. These sessions are perfect for those who enjoy learning with others and benefit from diverse perspectives. We use platforms like MS Teams or Jitsi Meet to create an engaging online classroom environment where everyone has a chance to participate. This is a future offering, please express your interest!
+                </p>
+                <p>
+                    For more details on pricing and packages, please visit <HashLink to="/faq#prices">FAQ: Prices & Plans</HashLink>.
+                </p>
+            </>
+        ),
         // image: "path/to/online-group.jpg"
     },
     'private-1on1': {
         title: "Online 1-on-1 Sessions",
-        description: "Detailed description about private 1-on-1 lessons. Focus on personalization, tailoring to individual goals (levels 1-5, intensive options), learning pace, direct feedback, flexibility in scheduling, ideal for specific needs or faster progress.",
+        description: (
+            <>
+                <p>
+                    Receive my undivided attention and a personalized learning plan with private 1-on-1 sessions. These lessons are tailored to your specific needs, whether you're a complete beginner or an advanced learner looking to perfect your fluency.
+                </p>
+                <p>
+                    For more details on pricing and packages, please visit <HashLink to="/faq#prices">FAQ: Prices & Plans</HashLink>.
+                </p>
+            </>
+        ),
          // image: "path/to/1on1.jpg"
     },
      'private-1on2': {
         title: "Online 1-on-2 Sessions",
-        description: "Detailed description about lessons for pairs. Focus on learning with a friend/partner, balancing two students' needs, collaborative exercises, cost-effectiveness compared to 1-on-1, recommended session frequency.",
+        description: (
+            <>
+                <p>
+                    Learn Portuguese with a friend, partner, or colleague in a 1-on-2 session. This option combines the benefits of personalized attention with the fun of learning together. It's a cost-effective way to get more focused instruction while still having a partner to practice with. The lessons are designed to accommodate the learning pace of both students.
+                </p>
+                <p>
+                    For more details on pricing and packages, please visit <HashLink to="/faq#prices">FAQ: Prices & Plans</HashLink>.
+                </p>
+            </>
+        ),
          // image: "path/to/1on2.jpg"
     }
-    // Add more offers if needed
 };
 
 
@@ -56,8 +91,8 @@ const OfferDetailPage: React.FC = () => {
 
        {/* Main content */}
        <div className="container offer-content">
-           <p>{details.description}</p>
-            {/* Add more details like schedule, pricing summary, prerequisites etc. */}
+           {/* Render the description which now contains JSX */}
+           {details.description}
 
            {/* Call to Action */}
            <div className="offer-cta">

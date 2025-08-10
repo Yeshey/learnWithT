@@ -1,15 +1,23 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import '../styles/FAQPage.css'; // Create this CSS file
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
+import { useLocation } from 'react-router-dom';
 
+// modify FAQItem to accept defaultOpen:
 interface FAQItemProps {
   question: string;
-  answer: React.ReactNode; // Allow JSX in answer
+  answer: React.ReactNode;
+  defaultOpen?: boolean;
 }
 
-const FAQItem: React.FC<FAQItemProps> = ({ question, answer }) => {
-  const [isOpen, setIsOpen] = useState(false);
+const FAQItem: React.FC<FAQItemProps> = ({ question, answer, defaultOpen = false  }) => {
+  const [isOpen, setIsOpen] = useState(defaultOpen);
+
+  useEffect(() => {
+    // If defaultOpen changes later, update state (rare, but safe)
+    setIsOpen(defaultOpen);
+  }, [defaultOpen]);
 
   return (
     <div className={`faq-item ${isOpen ? 'open' : ''}`}>
@@ -24,6 +32,9 @@ const FAQItem: React.FC<FAQItemProps> = ({ question, answer }) => {
 
 
 const FAQPage: React.FC = () => {
+  const location = useLocation();
+  const openPrices = location.hash === '#prices' || location.hash === '#price' || location.hash === '#what-are-the-prices';
+
   return (
     <section className="faq-page">
       <div className="container">
@@ -35,6 +46,7 @@ const FAQPage: React.FC = () => {
         <div className="faq-list">
           <FAQItem
             question="What are the prices?"
+            defaultOpen={openPrices}
             answer={
               <>
                 <p>Pricing varies depending on the type of session (individual, pair, group) and package chosen. Generally:</p>
