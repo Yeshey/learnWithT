@@ -1,4 +1,4 @@
-import React, { useState, useEffect, Fragment } from 'react';
+import React, { useState, useEffect } from 'react';
 // Remove 'Link' if it's not used directly. Keep NavLink/HashLink.
 import { NavLink } from 'react-router-dom';
 import { HashLink } from 'react-router-hash-link';
