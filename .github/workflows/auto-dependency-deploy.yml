@@ -86,7 +86,7 @@ jobs:
         uses: peaceiris/actions-gh-pages@v4 # Or latest v3 like v3.9.3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build
+          publish_dir: ./dist
           user_name: 'GitHub Actions Bot'
           user_email: 'actions@github.com'
           commit_message: "Deploy: ${{ github.event_name }} triggered by ${{ github.actor }} - ${{ github.sha }}"
