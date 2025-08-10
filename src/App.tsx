@@ -2,9 +2,8 @@ import React from 'react';
 import {
   createBrowserRouter,
   RouterProvider,
-  RouteObject // Optional: for type safety
+  type RouteObject // Optional: for type safety
 } from 'react-router-dom';
-import './App.css'; // Keep global app styles
 
 // Import Layout and Page components
 import Layout from './components/Layout';

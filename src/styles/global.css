@@ -18,6 +18,7 @@
     font-family: 'Raleway', sans-serif;
     color: var(--text-color);
     background-color: var(--secondary-color);
+    padding-top: 95px;
   }
   
   h1, h2, h3, h4, h5, h6 {
@@ -118,4 +119,20 @@
     section {
       padding: 3rem 0;
     }
+
+    body {
+      padding-top: 85px;
+    }
+    main {
+      padding: 30px 15px;
+      min-height: calc(100vh - 85px - 180px); /* Adjust */
+    }
+  }
+
+  main {
+    /* Styles for the main content area common to all pages */
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    min-height: calc(100vh - 95px - 200px); /* Adjust footer height estimate */
   }

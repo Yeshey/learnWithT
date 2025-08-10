@@ -15,7 +15,7 @@
     devShells = eachSystem (pkgs: {
       default = pkgs.mkShell {
         packages = [
-          pkgs.nodejs_23
+          pkgs.nodejs_24
           pkgs.firebase-tools
           # pkgs.nodePackages.npm
           pkgs.git
