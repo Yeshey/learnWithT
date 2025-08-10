@@ -6,13 +6,13 @@ import { HashLink } from 'react-router-hash-link';
 // Define potential offer data structure (replace with actual data source/logic)
 const offerDetailsData: { [key: string]: { title: string; description: string; image?: string } } = {
     'group-funchal': {
-        title: "Live/Online Group Sessions (Funchal)",
+        title: "15 Minutes Free Demo Session",
         description: "Detailed description about the group sessions held physically in Funchal or joined digitally. Focus on the hybrid aspect, community building in person/online, target levels, typical schedule, benefits of local interaction combined with online flexibility.",
         // image: "path/to/funchal-group.jpg"
     },
     'group-online': {
         title: "Online Group Sessions",
-        description: "Detailed description about purely online group sessions. Focus on the mini-community aspect (3-6 students), benefits of diverse participants, session structure, platforms used (Zoom/Jitsi), suitable levels, how interaction is fostered online.",
+        description: "To be discussed. Focus on the mini-community aspect (3-6 students), benefits of diverse participants, session structure, platforms used (Zoom/Jitsi), suitable levels, how interaction is fostered online.",
         // image: "path/to/online-group.jpg"
     },
     'private-1on1': {

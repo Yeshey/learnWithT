@@ -33,33 +33,13 @@ const FAQPage: React.FC = () => {
         </div>
 
         <div className="faq-list">
-           <FAQItem
-            question="Can more than 6 students join a group session?"
-            answer="Group sessions are designed for a maximum of 6 students to ensure personalized attention and active participation for everyone. For larger groups, please contact me to discuss custom arrangements."
-          />
-          <FAQItem
-            question="What's the difference between Zoom and Face-to-Face classes?"
-            answer="Zoom classes offer flexibility and convenience, allowing you to learn from anywhere with an internet connection. Face-to-face classes, held in Funchal, Madeira, provide direct interaction and immersion. Both follow the same effective teaching methodology."
-          />
-           <FAQItem
-            question="How long is each class?"
-            answer="Standard class duration is typically 60 minutes for individual sessions and 60-90 minutes for group sessions, depending on the specific course. Intensive sessions can be longer. We can discuss durations that best suit your needs."
-          />
-          <FAQItem
-            question="Where do face-to-face classes take place?"
-            answer="Face-to-face classes are held in a convenient location in Funchal, Madeira Island. The exact location will be confirmed upon booking. In some cases, classes at your location (home or office) might be possible – please inquire."
-          />
-           <FAQItem
-            question="What software do you use for online calls?"
-            answer="I primarily use Zoom for online classes due to its stability and features like screen sharing and breakout rooms. However, I am flexible and can use other platforms like Jitsi Meet or Google Meet if preferred."
-          />
           <FAQItem
             question="What are the prices?"
             answer={
               <>
                 <p>Pricing varies depending on the type of session (individual, pair, group) and package chosen. Generally:</p>
                 <ul>
-                  <li>1-on-1 sessions: Start from €X per hour (discount packages available).</li>
+                  <li>1-on-1 sessions: Start from €20 per hour Fazer blocos como a outra, e 20 euros online, 25 presencial</li>
                   <li>1-on-2 sessions: Start from €Y per hour per pair.</li>
                   <li>Group sessions: Price depends on the course duration and size.</li>
                 </ul>
@@ -67,6 +47,30 @@ const FAQPage: React.FC = () => {
                 {/* Replace €X and €Y with actual prices */}
               </>
             }
+          />
+          <FAQItem
+            question="What is your cancellation and rescheduling policy?"
+            answer="Clients must provide at least 24 hours' notice for cancellations or rescheduling requests. Failure to provide sufficient notice may result in the session being charged. The Teacher reserves the right to reschedule sessions due to unforeseen circumstances, providing as much notice as possible."
+          />
+          <FAQItem
+            question="Where do face-to-face classes take place?"
+            answer="Face-to-face classes are held in a convenient location in São Martinho Funchal, Madeira Island. The exact location will be confirmed upon booking. In some cases, classes at your location (home or office) might be possible for a higher price – please inquire."
+          />
+           <FAQItem
+            question="What software do you use for online calls?"
+            answer="I primarily use MS Teams for online classes due to its stability and features like screen sharing. However, I am flexible and can use other platforms like Jitsi Meet or Google Meet if preferred."
+          />
+           <FAQItem
+            question="Can you do group sessions?"
+            answer="I used to teach full classrooms, so it's possible, I'm not providing this service now so it would have to be discussed – please inquire."
+          />
+          <FAQItem
+            question="What's the difference between Zoom and Face-to-Face classes?"
+            answer="Zoom classes offer flexibility and convenience, allowing you to learn from anywhere with an internet connection. Face-to-face classes, held in Funchal, Madeira, provide direct interaction and immersion. Both follow the same effective teaching methodology."
+          />
+           <FAQItem
+            question="How long is each class?"
+            answer="Standard class duration is typically 60 minutes for online sessions and 75 minutes for face-to-face sessions, But we can discuss durations that best suit your needs."
           />
            {/* Add more questions as needed */}
         </div>

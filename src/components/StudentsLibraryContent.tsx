@@ -11,7 +11,7 @@ const StudentsLibraryContent: React.FC = () => {
       <div className="container">
         <div className="section-heading">
           {/* Content moved from original Testimonials.tsx */}
-          <h2>Student's Library</h2>
+          <h2>Student's Library (Work in Progress)</h2>
           <div className="divider"></div>
         </div>
 

@@ -23,16 +23,6 @@ const Services: React.FC = () => {
             </div>
           </div>
 
-          {/* Card 2 */}
-          <div className="service-card">
-             <div className="service-image service-image-2"></div>
-            <div className="service-content">
-              <h3>Online Group Sessions</h3>
-              <p>Join a mini-community meet new and interesting people...</p>
-              <Link to="/offer/group-online" className="btn">Learn More</Link>
-            </div>
-          </div>
-
           {/* Card 3 */}
           <div className="service-card">
              <div className="service-image service-image-3"></div>

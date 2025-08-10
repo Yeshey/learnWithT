@@ -14,13 +14,11 @@ const AboutPage: React.FC = () => {
              </div>
              <div className="about-text">
                <h3>Tânia Almeida, Portuguese Teacher</h3>
-              <p>I am Tânia – a language enthusiast driven by a passion for languages, education, and cultural connection.</p>
-              <p>Living in beautiful Madeira Island, Funchal, Portugal, I combine quality digital lessons and enthusiasm for modernity embrace the communicative approach and culture through personalized, engaging learning experiences.</p>
-              <p>With Qualified Teacher Status (QTS) recognized by the UK's National College for Teaching & Leadership and certified by the Cambridge Examiner for Cambridge Assessments and Pearson Edexcel - I bring a professional approach.</p>
-              <p>My approach integrates John W. Oller's pedagogical methods, fostering a positive flux and effective environment that inspires confidence.</p>
-              <p>In addition to teaching, I am an intuitive life coach, guiding individuals through the growth. Communicative & CLIL's Teaching, The work method is a mix of communicative and content-based learning techniques, prioritizing real-life language use.</p>
-              <p>My conversational-native-method for creating supportive communities and encouraging meaningful connections, I believe that language learning becomes easy through human connections, bridging both learning and life.</p>
-              <p>Through my work, I help others unlock their potential and embrace growth through languages.</p>
+              <p>Olá! I'm Tânia — your guide to the Portuguese language and culture.</p>
+              <p>Living in beautiful Madeira Island, Funchal, Portugal, with a degree in Romance Languages and Literatures and years of experience teaching in primary and secondary schools, I bring a strong academic and pedagogical foundation to every lesson. My journey has been shaped by a deep passion for language, communication, and human connection.</p>
+              <p>I also completed a specialized course in Teaching and Learning Portuguese as a Non-Native Language at the University of Coimbra, which sharpened my skills in helping international learners confidently navigate the richness of the Portuguese language.</p>
+              <p>Whether you're learning for travel, work, or pure curiosity, I design personalised lessons that are interactive, culturally immersive, and focused on real communication. My mission is to make learning Portuguese feel natural, meaningful — and even fun.</p>
+              <p>Let’s turn your interest in Portuguese into a lasting skill. Welcome to a space where language builds bridges.</p>
               </div>
         </div>
       </div>

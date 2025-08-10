@@ -112,7 +112,7 @@ const Contact: React.FC = () => {
           <p>I'd love to hear from you! Whether you have questions about my classes, want to schedule a lesson, or just want to chat about learning Portuguese, feel free to reach out.</p>
           <div className="info-item">
             <span className="info-icon"><FontAwesomeIcon icon={faEnvelope} /></span>
-            <a href="mailto:tania.jmsa@gmail.com">tania.jmsa@gmail.com</a>
+            <a href="mailto:learnportuguesewithtania@gmail.com">learnportuguesewithtania@gmail.com</a>
           </div>
           <div className="info-item">
             <span className="info-icon"><FontAwesomeIcon icon={faPhone} /></span>

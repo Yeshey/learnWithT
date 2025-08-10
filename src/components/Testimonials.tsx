@@ -21,19 +21,19 @@ const Testimonials: React.FC = () => {
              {/* Item 1 */}
             <div className="testimonial-item">
               <blockquote>
-                "Since September 2020 I Have Been Learning Portuguese With Tânia..."
+                "Tânia has been patient and thorough in both our online and face-to-face lessons and I now have my CIPLE certificate!"
               </blockquote>
-              <cite>Matthijs Poelman</cite>
+              <cite>Tim Dixon</cite>
             </div>
              {/* ... other testimonial items ... */}
              <div className="testimonial-item">
-                 <blockquote>"Dedicated, Kind And Methodical..."</blockquote><cite>Melissa Peterson</cite>
+                 <blockquote>"Dedicated, Kind And Methodical..."</blockquote><cite>...</cite>
              </div>
              <div className="testimonial-item">
-                 <blockquote>"Thoroughly Enjoy My Classes With Tânia..."</blockquote><cite>Georgia Richards</cite>
+                 <blockquote>"Thoroughly Enjoy My Classes With Tânia..."</blockquote><cite>...</cite>
              </div>
               <div className="testimonial-item">
-                 <blockquote>"Tânia Is Currently Doing Lessons With Me Via Skype..."</blockquote><cite>Jenny Thomas</cite>
+                 <blockquote>"Tânia Is Currently Doing Lessons With Me Via Skype..."</blockquote><cite>...</cite>
              </div>
           </div>
         </div>
