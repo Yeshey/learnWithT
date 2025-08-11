@@ -51,6 +51,11 @@
     transition: color 0.3s;
   }
   
+  /* --- CHANGE: Add active state for tap feedback --- */
+  a:active {
+    color: var(--accent-color);
+  }
+
   .btn {
     display: inline-block;
     background-color: var(--primary-color);
@@ -60,10 +65,16 @@
     border-radius: 4px;
     cursor: pointer;
     font-weight: 500;
-    transition: background-color 0.3s;
+    transition: background-color 0.3s, transform 0.1s ease;
     text-transform: uppercase;
     font-size: 0.9rem;
     letter-spacing: 0.5px;
+  }
+
+  /* --- CHANGE: Add active state for tap feedback --- */
+  .btn:active {
+    transform: translateY(1px); /* Gives a "press" effect */
+    background-color: #062c48;
   }
   
   .btn-secondary {
@@ -71,8 +82,15 @@
     border: 2px solid var(--primary-color);
     color: var(--primary-color);
   }
+
+  /* --- CHANGE: Add active state for tap feedback --- */
+  .btn-secondary:active {
+      background-color: var(--primary-color);
+      color: var(--white);
+      transform: translateY(1px);
+  }
   
-  /* --- CHANGE: Restrict hover effects to devices that can truly hover --- */
+  /* Restrict hover effects to devices that can truly hover */
   @media (hover: hover) {
     a:hover {
       color: var(--accent-color);
