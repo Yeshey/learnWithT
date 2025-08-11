@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import '../styles/FAQPage.css'; // Create this CSS file
+import { HashLink } from 'react-router-hash-link'; // Make sure HashLink is imported
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import { faChevronDown, faChevronUp } from '@fortawesome/free-solid-svg-icons';
 import { useLocation } from 'react-router-dom';
@@ -49,14 +50,31 @@ const FAQPage: React.FC = () => {
             defaultOpen={openPrices}
             answer={
               <>
-                <p>Pricing varies depending on the type of session (individual, pair, group) and package chosen. Generally:</p>
+                <p>I offer several options to fit your learning style and budget. Prices are structured by session type, with discounts available for packages.</p>
+
+                <h4>Online Classes (60 minutes per session)</h4>
                 <ul>
-                  <li>1-on-1 sessions: Start from €20 per hour Fazer blocos como a outra, e 20 euros online, 25 presencial</li>
-                  <li>1-on-2 sessions: Start from €Y per hour per pair.</li>
-                  <li>Group sessions: Price depends on the course duration and size.</li>
+                  <li><strong>1-on-1 Session:</strong> €20</li>
+                  <li><strong>1-on-2 Session:</strong> €25 per pair</li>
                 </ul>
-                <p>Please <a href="/contact">contact me</a> for a detailed price list and to discuss the best option for you. A free 10-15 minute trial/consultation is available!</p>
-                {/* Replace €X and €Y with actual prices */}
+
+                <h4>Face-to-Face Classes (75 minutes per session)</h4>
+                <p className="faq-location-note"><em>Held in São Martinho, Funchal.</em></p>
+                <ul>
+                  <li><strong>1-on-1 Session:</strong> €25</li>
+                  <li><strong>1-on-2 Session:</strong> €30 per pair</li>
+                </ul>
+
+                <h4>Package Deals & Discounts</h4>
+                <p>Save on your lessons by purchasing a package. The discount is applied to the standard price of each class in the package.</p>
+                <ul>
+                  <li><strong>Buy 4 Classes:</strong> Standard price</li>
+                  <li><strong>Buy 8 Classes:</strong> Get a <strong>€1 discount</strong> on each class</li>
+                  <li><strong>Buy 16 Classes:</strong> Get a <strong>€2 discount</strong> on each class</li>
+                </ul>
+                <p>For example, a package of 16 online 1-on-1 classes would cost just €18 per session!</p>
+                <br />
+                <p>Please <HashLink to="/#contact">contact me</HashLink> to discuss the best plan for you. A free 15-minute trial/consultation is available!</p>
               </>
             }
           />

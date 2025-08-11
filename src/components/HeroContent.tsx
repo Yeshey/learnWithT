@@ -10,7 +10,7 @@ const HeroContent: React.FC = () => {
       <div className="hero-content">
         <div className="hero-text">
           <h1>Learn Portuguese<br />Online Or In Person!</h1>
-          <p>All you need is a laptop,<br />a good internet connection<br />and motivation!</p>
+          <p>All you need is a laptop,<br />a good internet connection<br />and motivation! <br/> Face-to-face classes are in São Martinho, Funchal!</p>
           {/*<a href="#contact" className="btn">Let's Learn</a>*/}
           <HashLink smooth to="/#contact" className="btn">Let's Learn</HashLink>
         </div>

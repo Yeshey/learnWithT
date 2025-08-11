@@ -16,8 +16,8 @@ const Services: React.FC = () => {
           <div className="service-card">
             <div className="service-image service-image-1"></div>
             <div className="service-content">
-              <h3>15-min free demo session</h3>
-              <p>These sessions are designed to get acquainted and get to know each other</p>
+              <h3>15-min Free Demo Session</h3>
+              <p>The perfect opportunity for us to meet, discuss your goals, and see if we are a good fit, with no obligation.</p>
               {/* Link to detail page */}
               <Link to="/offer/group-funchal" className="btn">Learn More</Link>
             </div>
@@ -25,23 +25,34 @@ const Services: React.FC = () => {
 
           {/* Card 3 */}
           <div className="service-card">
-             <div className="service-image service-image-3"></div>
+             <div className="service-image service-image-2"></div>
             <div className="service-content">
-              <h3>Online 1-On-1 Sessions</h3>
-              <p>Designed for every current level 1-5...</p>
-             <Link to="/offer/private-1on1" className="btn">Learn More</Link>
+              <h3>Online 1-on-1 Sessions</h3>
+              <p>Personalized lessons tailored to your specific needs and learning pace, from beginner to advanced levels.</p>
+             <Link to="/offer/private-1on1" className="btn">Pricing & Learn More</Link>
             </div>
           </div>
 
           {/* Card 4 */}
           <div className="service-card">
-            <div className="service-image service-image-4"></div>
+            <div className="service-image service-image-3"></div>
             <div className="service-content">
-              <h3>Online 1-On-2 Sessions</h3>
-              <p>Lessons are tailored specifically to reach of two...</p>
-              <Link to="/offer/private-1on2" className="btn">Learn More</Link>
+              <h3>Online 1-on-2 Sessions</h3>
+              <p>Learn with a friend or partner in a session that balances individual attention with collaborative practice.</p>
+              <Link to="/offer/private-1on2" className="btn">Pricing & Learn More</Link>
             </div>
           </div>
+
+          {/* Card 2 */}
+          <div className="service-card">
+             <div className="service-image service-image-4"></div>
+            <div className="service-content">
+              <h3>Groups, Companies & More </h3>
+              <p>Interested in classes for a private group? Language Classes for your company? Or something else? Contact me for custom packages.</p>
+              <Link to="/offer/group-online" className="btn">Inquire Now</Link>
+            </div>
+          </div>
+
         </div>
       </div>
   );

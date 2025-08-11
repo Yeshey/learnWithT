@@ -20,14 +20,14 @@ const offerDetailsData: { [key: string]: { title: string; description: React.Rea
         // image: "path/to/funchal-group.jpg"
     },
     'group-online': {
-        title: "Online Group Sessions",
+        title: "Group & Corporate Sessions & More",
         description: (
              <>
                 <p>
-                    Join a small, dynamic group of 3-6 students for a collaborative and interactive learning experience. These sessions are perfect for those who enjoy learning with others and benefit from diverse perspectives. We use platforms like MS Teams or Jitsi Meet to create an engaging online classroom environment where everyone has a chance to participate. This is a future offering, please express your interest!
+                    Whether you're a group wanting to learn together or a company looking to provide language training for your employees, I can create a custom program to fit your needs.
                 </p>
                 <p>
-                    For more details on pricing and packages, please visit <HashLink to="/faq#prices">FAQ: Prices & Plans</HashLink>.
+                    Due to the unique requirements of each group, pricing is provided on a case-by-case basis. Please <HashLink to="/#contact">contact me</HashLink> with details about your group size, learning objectives, and desired schedule, and I will be happy to provide a personalized quote!
                 </p>
             </>
         ),

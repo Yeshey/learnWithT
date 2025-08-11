@@ -136,3 +136,19 @@
       margin-bottom: 10px;
     }
   }
+
+  .footer-bottom {
+  /* ... (your existing styles) ... */
+  flex-wrap: wrap; /* Allows items to wrap on small screens */
+  gap: 10px 20px; /* Add some spacing between items */
+}
+
+.photo-credits, .photo-credits a {
+  font-size: 0.8rem;
+  color: rgba(255, 255, 255, 0.7);
+}
+
+.photo-credits a:hover {
+  color: #fff;
+  text-decoration: underline;
+}

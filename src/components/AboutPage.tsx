@@ -2,9 +2,17 @@
 const AboutPage: React.FC = () => {
     return (
       <section className="about-page">
+        <div className="page-hero translations-hero">
+          {/* <img src={translationImage} alt="Translations service" /> */}
+          <div className="hero-overlay"></div>
+          <div className="container">
+            <h1>About Tânia</h1>
+          </div>
+        </div>
+
         <div className="container">
           <div className="section-heading">
-            <h2>About Tânia</h2>
+            <h2></h2>
             <div className="divider"></div>
           </div>
           <div className="about-content">
