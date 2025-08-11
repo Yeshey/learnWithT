@@ -82,11 +82,15 @@
       flex-direction: column;
     }
   
-    .hero-image,
-    .teacher-photo {
+    .hero-image {
       min-height: 300px;
       width: 100%;
       margin-top: 30px;
+    }
+
+    .teacher-photo {
+      min-height: 300px;
+      width: 100%;
     }
   
     .hero-text,

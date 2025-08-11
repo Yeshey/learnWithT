@@ -47,6 +47,8 @@
 .info-item p {
   margin-bottom: 0;
   color: var(--text-color);
+  overflow-wrap: break-word;
+  word-break: break-word;
 }
 
 .social-links {

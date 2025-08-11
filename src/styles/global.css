@@ -7,6 +7,11 @@
     --white: #fff;
     --dark-overlay: rgba(0,0,0,0.6);
   }
+
+  html,
+  body {
+    overflow-x: hidden; /* Prevent horizontal scrolling on mobile */
+  }
   
   * {
     margin: 0;
