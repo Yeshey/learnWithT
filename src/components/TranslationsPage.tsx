@@ -26,22 +26,15 @@ const TranslationsPage: React.FC = () => {
                     <li>Hourly Rate: €40 per hour</li> {/* Replace with actual price */}
                 </ul>
 
-                <h3>Why Choose my Pricing?</h3>
-                <ul>
-                    <li><strong>Flexible Options:</strong> Choose the package that works best for you. Whether you prefer one-on-one attention or a dynamic group setting, we have affordable pricing for all preferences.</li>
-                    <li><strong>Discounted Packages:</strong> Save money with package deals for multiple sessions.</li>
-                    <li><strong>Quality & Value:</strong> With a proven track record and personalized approach, you get the best value for your language learning and translation needs.</li>
-                    <li><strong>Payment Options:</strong> Bank Transfer, PayPal, Revolut.</li>
-                </ul>
-            </div>
-
-            <div className="translation-column">
                 <h3>Who is this service for?</h3>
                  <ul>
                     <li><strong>Digital Nomads:</strong> Need to understand documents or communicate with local businesses in Portuguese? I offer translation services to help you navigate the language barrier.</li>
                     <li><strong>Expats:</strong> Whether you're dealing with rental agreements, bureaucracy, administrative, or personal documents, I can help with accurate, context-driven translations.</li>
                     <li><strong>Students of All Levels:</strong> If you're learning Portuguese and need assistance with text translations, this service can support your study while enhancing your comprehension of the language.</li>
                 </ul>
+            </div>
+
+            <div className="translation-column">
 
                 <h3>What you'll gain:</h3>
                 <ul>

@@ -19,7 +19,7 @@ const Footer: React.FC = () => {
 
           <div className="footer-links">
              <div className="footer-links-column"> <h4>Menu</h4> <ul> <li><Link to="/">Home</Link></li> <li><Link to="/about">About</Link></li> <li><HashLink smooth to="/#offers">My Offers</HashLink></li> <li><HashLink smooth to="/#library">Student's Library</HashLink></li> </ul> </div>
-             <div className="footer-links-column"> <h4>More</h4> <ul> <li><Link to="/faq">FAQ</Link></li> <li><HashLink smooth to="/#contact">Contact</HashLink></li> <li><Link to="/terms-conditions">Terms & Conditions</Link></li> </ul> </div>
+             <div className="footer-links-column"> <h4>More</h4> <ul> <li><Link to="/faq">FAQ</Link></li> <li><Link to="/translations">Translations</Link></li> <li><HashLink smooth to="/#contact">Contact</HashLink></li> <li><Link to="/terms-conditions">Terms & Conditions</Link></li> </ul> </div>
 
             <div className="footer-links-column">
               <h4>Contact</h4>
