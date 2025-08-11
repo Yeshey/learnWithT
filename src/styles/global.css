@@ -51,14 +51,6 @@
     transition: color 0.3s;
   }
   
-  a:hover {
-    color: var(--accent-color);
-  }
-  
-  section {
-    padding: 4rem 0;
-  }
-  
   .btn {
     display: inline-block;
     background-color: var(--primary-color);
@@ -74,20 +66,27 @@
     letter-spacing: 0.5px;
   }
   
-  .btn:hover {
-    background-color: #062c48;
-    color: var(--white);
-  }
-  
   .btn-secondary {
     background-color: transparent;
     border: 2px solid var(--primary-color);
     color: var(--primary-color);
   }
   
-  .btn-secondary:hover {
-    background-color: var(--primary-color);
-    color: var(--white);
+  /* --- CHANGE: Restrict hover effects to devices that can truly hover --- */
+  @media (hover: hover) {
+    a:hover {
+      color: var(--accent-color);
+    }
+  
+    .btn:hover {
+      background-color: #062c48;
+      color: var(--white);
+    }
+  
+    .btn-secondary:hover {
+      background-color: var(--primary-color);
+      color: var(--white);
+    }
   }
   
   .container {

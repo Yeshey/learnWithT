@@ -43,9 +43,6 @@
   text-decoration: none; /* Remove underline if any */
 }
 
-.top-strip .contact-info a:hover {
-  color: var(--secondary-color); /* Optional hover effect */
-}
 /* End of top strip styles */
 
 
@@ -121,10 +118,6 @@
   transition: width 0.3s;
 }
 
-.main-nav a:hover::after {
-  width: 100%;
-}
-
 /* Mobile Menu Button */
 .mobile-menu-btn {
   display: none;
@@ -159,16 +152,12 @@
   .main-nav {
     position: fixed;
     top: 0;
-    /* CHANGE: Hide menu off-screen using its new fixed width */
     right: -280px; 
-    /* CHANGE: Use a fixed width for a consistent look */
     width: 280px; 
     height: 100vh;
     background-color: var(--secondary-color);
-    /* CHANGE: Adjust padding for a cleaner look inside */
     padding: 100px 30px 40px;
     box-shadow: -5px 0 15px rgba(0, 0, 0, 0.1);
-    /* CHANGE: Make transition smoother */
     transition: right 0.4s ease-in-out; 
     overflow-y: auto;
     z-index: 1005;
@@ -193,22 +182,18 @@
     padding: 8px 0; /* Add vertical padding for easier tapping */
   }
 
-  /* --- CHANGE: Mobile button animation for symmetrical X --- */
   .mobile-menu-btn.open span:nth-child(1) {
-    /* Translate the top bar down to the middle, then rotate */
     transform: translateY(8px) rotate(45deg);
   }
   .mobile-menu-btn.open span:nth-child(2) {
-    /* Fade out the middle bar */
     opacity: 0;
   }
   .mobile-menu-btn.open span:nth-child(3) {
-     /* Translate the bottom bar up to the middle, then rotate */
     transform: translateY(-8px) rotate(-45deg);
   }
 }
 
-/* Navigation link styles (re-check these) */
+/* Navigation link styles */
 .main-nav a {
   font-size: 0.9rem;
   font-weight: 500;
@@ -229,10 +214,22 @@
   transition: width 0.3s;
 }
 
-.main-nav a:hover::after,
-.main-nav a.active-link::after { /* Style active link underline */
+/* --- CHANGE: Restrict hover effects to devices that can truly hover --- */
+@media (hover: hover) {
+  .top-strip .contact-info a:hover {
+    color: var(--secondary-color);
+  }
+
+  .main-nav a:hover::after,
+  .main-nav a.active-link:hover::after {
+    width: 100%;
+  }
+}
+
+.main-nav a.active-link::after {
   width: 100%;
 }
+
 
 /* Optional: Add more distinct style for active link text */
 .main-nav a.active-link {
