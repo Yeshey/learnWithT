@@ -1,3 +1,6 @@
+/* all_files_combined.txt */
+/* ... (file content) ... */
+/* src/styles/global.css */
 :root {
     --primary-color: #0a3d62;
     --secondary-color: #f9f1e0;
@@ -23,7 +26,7 @@
     font-family: 'Raleway', sans-serif;
     color: var(--text-color);
     background-color: var(--secondary-color);
-    padding-top: 95px;
+    /* Padding is now applied conditionally below */
   }
   
   h1, h2, h3, h4, h5, h6 {
@@ -128,6 +131,13 @@
     background-color: var(--accent-color);
     margin: 1rem auto 2rem;
   }
+
+  /* Apply body padding only for screens larger than mobile */
+  @media (min-width: 769px) {
+      body {
+          padding-top: 95px;
+      }
+  }
   
   @media (max-width: 768px) {
     h1 {
@@ -142,9 +152,6 @@
       padding: 3rem 0;
     }
 
-    body {
-      padding-top: 85px;
-    }
     main {
       padding: 30px 15px;
       min-height: calc(100vh - 85px - 180px); /* Adjust */
