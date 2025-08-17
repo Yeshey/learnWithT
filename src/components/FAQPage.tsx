@@ -84,7 +84,7 @@ const FAQPage: React.FC = () => {
           />
           <FAQItem
             question="Where do face-to-face classes take place?"
-            answer="Face-to-face classes are held in a convenient location in São Martinho Funchal, Madeira Island. The exact location will be confirmed upon booking. In some cases, classes at your location (home or office) might be possible for a higher price – please inquire."
+            answer="Face-to-face classes are held in a convenient location in São Martinho Funchal, near Praia Formosa, Madeira Island. The exact location will be confirmed upon booking. In some cases, classes at your location (home or office) might be possible for a higher price – please inquire."
           />
            <FAQItem
             question="What software do you use for online calls?"
