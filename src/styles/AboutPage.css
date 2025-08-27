@@ -17,7 +17,7 @@
 .about-image {
     background-image: url('../assets/images/tania-profile.jpg'); /* Adjust path if needed */
     background-size: cover;
-    background-position: center;
+    background-position: center top;
     width: 100%;
     min-height: 500px; /* Ensure minimum height */
     height: 100%; /* Try to fill grid cell height */
@@ -29,7 +29,7 @@
 .about-text h3 { /* Keep as is */ }
 .about-text p { /* Keep as is */ }
 
-@media (max-width: 992px) {
+@media (max-width: 768px) {
     .about-content {
         grid-template-columns: 1fr; /* Stack */
         gap: 30px;
@@ -43,7 +43,7 @@
 /* Keep other media queries */
  @media (max-width: 768px) { .about-page { padding-bottom: 40px; } .about-text h3 { font-size: 1.5rem; } .about-text p { font-size: 0.95rem; } }
 
-@media (max-width: 992px) {
+@media (max-width: 838px) {
     .about-content {
         grid-template-columns: 1fr; /* Stack image and text */
         gap: 30px;
@@ -54,7 +54,7 @@
     }
 }
 
-@media (max-width: 768px) {
+@media (max-width: 838px) {
     .about-page {
         padding: 40px 0;
     }
