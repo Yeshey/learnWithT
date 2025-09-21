@@ -63,7 +63,7 @@ const FAQPage: React.FC = () => {
                 <h4>Face-to-Face Classes - 1 Person (75 minutes per session)</h4>
                 <p className="faq-location-note"><em>Held in São Martinho, Funchal.</em></p>
                 <ul>
-                  <li><strong>Price per hour:</strong> €25</li>
+                  <li><strong>Price per session:</strong> €25</li>
                   <li><strong>4 Sessions:</strong> €100</li>
                   <li><strong>8 Sessions:</strong> €200 (Special Offer: €190)</li>
                   <li><strong>16 Sessions:</strong> €400 (Special Offer: €375 - includes one free class)</li>
@@ -80,7 +80,7 @@ const FAQPage: React.FC = () => {
                 <h4>Face-to-Face Classes - 2 People (75 minutes per session)</h4>
                 <p className="faq-location-note"><em>Held in São Martinho, Funchal.</em></p>
                 <ul>
-                  <li><strong>Price per hour:</strong> €35 per pair</li>
+                  <li><strong>Price per session:</strong> €35 per pair</li>
                   <li><strong>4 Sessions:</strong> €140</li>
                   <li><strong>8 Sessions:</strong> €280</li>
                   <li><strong>16 Sessions:</strong> €560 (Special Offer: €525 - includes one free class)</li>
