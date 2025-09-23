@@ -34,7 +34,7 @@ const offerDetailsData: { [key: string]: { title: string; description: React.Rea
         // image: "path/to/online-group.jpg"
     },
     'private-1on1': {
-        title: "Online 1-on-1 Sessions",
+        title: "Online or Face-to-Face 1-on-1 Sessions",
         description: (
             <>
                 <p>

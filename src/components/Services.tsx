@@ -27,7 +27,7 @@ const Services: React.FC = () => {
           <div className="service-card">
              <div className="service-image service-image-2"></div>
             <div className="service-content">
-              <h3>Online 1-on-1 Sessions</h3>
+              <h3>1-on-1 Sessions</h3>
               <p>Personalized lessons tailored to your specific needs and learning pace, from beginner to advanced levels.</p>
              <Link to="/offer/private-1on1" className="btn">Pricing & Learn More</Link>
             </div>
@@ -37,7 +37,7 @@ const Services: React.FC = () => {
           <div className="service-card">
             <div className="service-image service-image-3"></div>
             <div className="service-content">
-              <h3>Online 1-on-2 Sessions</h3>
+              <h3>1-on-2 Sessions</h3>
               <p>Learn with a friend or partner in a session that balances individual attention with collaborative practice.</p>
               <Link to="/offer/private-1on2" className="btn">Pricing & Learn More</Link>
             </div>
