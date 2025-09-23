@@ -65,7 +65,7 @@ const FAQPage: React.FC = () => {
                 <ul>
                   <li><strong>Price per session:</strong> €25</li>
                   <li><strong>4 Sessions:</strong> €100</li>
-                  <li><strong>8 Sessions:</strong> €200 (Special Offer: €190)</li>
+                  <li><strong>8 Sessions:</strong> €200</li>
                   <li><strong>16 Sessions:</strong> €400 (Special Offer: €375 - includes one free class)</li>
                 </ul>
                 
@@ -74,7 +74,7 @@ const FAQPage: React.FC = () => {
                   <li><strong>Price per hour:</strong> €30 per pair</li>
                   <li><strong>4 Sessions:</strong> €120</li>
                   <li><strong>8 Sessions:</strong> €240</li>
-                  <li><strong>16 Sessions:</strong> €480 (Special Offer: €450)</li>
+                  <li><strong>16 Sessions:</strong> €480 (Special Offer: €450 - includes one free class)</li>
                 </ul>
 
                 <h4>Face-to-Face Classes - 2 People (75 minutes per session)</h4>
