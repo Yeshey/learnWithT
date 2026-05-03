@@ -16,7 +16,7 @@
       default = pkgs.mkShell {
         packages = [
           pkgs.nodejs_24
-          pkgs.firebase-tools
+          # pkgs.firebase-tools
           # pkgs.nodePackages.npm
           pkgs.git
         ];

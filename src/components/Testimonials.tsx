@@ -27,7 +27,7 @@ const Testimonials: React.FC = () => {
             </div>
              {/* ... other testimonial items ... */}
              <div className="testimonial-item">
-                 <blockquote>"Dedicated, Kind And Methodical..."</blockquote><cite>...</cite>
+                 <blockquote>"We have been thinking about learning Portuguese for many years and we finally plucked up the courage to try. Tania has been very patient with us and although we are finding the learning a challenge, we are very pleased that we have made good progress so far."</blockquote><cite>Peter & Christine</cite>
              </div>
              <div className="testimonial-item">
                  <blockquote>"Thoroughly Enjoy My Classes With Tânia..."</blockquote><cite>...</cite>
