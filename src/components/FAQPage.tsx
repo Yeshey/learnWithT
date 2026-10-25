@@ -60,6 +60,14 @@ const FAQPage: React.FC = () => {
                   <li><strong>16 Sessions:</strong> €320 (Special Offer: €300 - includes one free class)</li>
                 </ul>
 
+                <h4>Online Classes - 2 People (60 minutes per session)</h4>
+                <ul>
+                  <li><strong>Price per hour:</strong> €25 per pair</li>
+                  <li><strong>4 Sessions:</strong> €100</li>
+                  <li><strong>8 Sessions:</strong> €200</li>
+                  <li><strong>16 Sessions:</strong> €400 (Special Offer: €375 - includes one free class)</li>
+                </ul>
+
                 <h4>Face-to-Face Classes - 1 Person (75 minutes per session)</h4>
                 <p className="faq-location-note"><em>Held in São Martinho, Funchal.</em></p>
                 <ul>
@@ -68,22 +76,14 @@ const FAQPage: React.FC = () => {
                   <li><strong>8 Sessions:</strong> €200</li>
                   <li><strong>16 Sessions:</strong> €400 (Special Offer: €375 - includes one free class)</li>
                 </ul>
-                
-                <h4>Online Classes - 2 People (60 minutes per session)</h4>
-                <ul>
-                  <li><strong>Price per hour:</strong> €30 per pair</li>
-                  <li><strong>4 Sessions:</strong> €120</li>
-                  <li><strong>8 Sessions:</strong> €240</li>
-                  <li><strong>16 Sessions:</strong> €480 (Special Offer: €450 - includes one free class)</li>
-                </ul>
 
                 <h4>Face-to-Face Classes - 2 People (75 minutes per session)</h4>
                 <p className="faq-location-note"><em>Held in São Martinho, Funchal.</em></p>
                 <ul>
-                  <li><strong>Price per session:</strong> €35 per pair</li>
-                  <li><strong>4 Sessions:</strong> €140</li>
-                  <li><strong>8 Sessions:</strong> €280</li>
-                  <li><strong>16 Sessions:</strong> €560 (Special Offer: €525 - includes one free class)</li>
+                  <li><strong>Price per session:</strong> €30 per pair</li>
+                  <li><strong>4 Sessions:</strong> €120</li>
+                  <li><strong>8 Sessions:</strong> €240</li>
+                  <li><strong>16 Sessions:</strong> €480 (Special Offer: €450 - includes one free class)</li>
                 </ul>
                 <br />
                 <p>Please <HashLink to="/#contact">contact me</HashLink> to discuss the best plan for you. A free 15-minute trial/consultation is available!</p>
