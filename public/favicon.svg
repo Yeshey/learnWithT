@@ -1,6 +1,6 @@
 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64" role="img" aria-label="Open book">
   <rect width="64" height="64" rx="12" fill="#3b82f6"/>
-  <path d="M16 20c5-3 11-3 16 1v28c-5-4-11-4-16-1V20z" fill="#ffffff"/>
-  <path d="M48 20c-5-3-11-3-16 1v28c5-4 11-4 16-1V20z" fill="#dbeafe"/>
-  <path d="M32 21v28" stroke="#3b82f6" stroke-width="2.5" stroke-linecap="round"/>
+  <path d="M10 14 c7-4 15-4 22 2 v39 c-7-6 -15-6 -22-2 V14z" fill="#ffffff"/>
+  <path d="M54 14 c-7-4 -15-4 -22 2 v39 c7-6 15-6 22-2 V14z" fill="#dbeafe"/>
+  <path d="M32 16 V55" stroke="#3b82f6" stroke-width="3" stroke-linecap="round"/>
 </svg>
