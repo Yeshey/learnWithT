@@ -1,0 +1,48 @@
+name: Update flake.lock
+
+on:
+  schedule:
+    # Runs on the 15th of every month at 06:00 UTC
+    - cron: '0 6 15 * *'
+  workflow_dispatch: # Allows manual triggering
+
+permissions:
+  contents: write   # Direct push to main — no pull-requests permission needed
+
+jobs:
+  update-flake-lock:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0   # full history so push is straightforward
+
+      - name: Install Nix
+        uses: cachix/install-nix-action@v27
+        with:
+          nix_path: nixpkgs=channel:nixpkgs-unstable
+          extra_nix_config: |
+            experimental-features = nix-command flakes
+
+      - name: Update flake.lock
+        run: nix flake update
+
+      - name: Sanity check — evaluate dev shell and print versions
+        run: |
+          nix develop --command bash -c 'node --version && npm --version'
+
+      - name: Commit and push flake.lock directly to main
+        run: |
+          git config user.name  "GitHub Actions Bot"
+          git config user.email "actions@github.com"
+
+          git add flake.lock
+
+          if git diff --staged --quiet; then
+            echo "flake.lock is already up to date — nothing to push."
+            exit 0
+          fi
+
+          git commit -m "chore(flake): update flake.lock [skip ci]"
+          git push origin main
